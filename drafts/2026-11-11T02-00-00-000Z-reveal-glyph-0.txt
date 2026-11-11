@@ -1,6 +1,0 @@
-🔓 A glyph just dripped.
-
-$KEYDRIP vault key is now 13 glyphs from cracked (~74.3 bits left).
-
-Verify it yourself — every reveal is commitment-checked.
-https://keydrip.example

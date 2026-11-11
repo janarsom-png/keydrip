@@ -29,7 +29,7 @@ rng = random.Random(1337)
 fake = ''.join(rng.choice(A) for _ in range(44))
 hidden = sorted(rng.sample(range(1, 44), 8) + [0])
 masked = ''.join('?' if i in hidden else c for i, c in enumerate(fake))
-fake_wallet = 'KeyDR1p' + ''.join(rng.choice(A) for _ in range(37))
+fake_wallet = 'Th1ef' + ''.join(rng.choice(A) for _ in range(37))
 steps_def = [
     ('mc-50k', 'Sustained $50k market cap', 50000, 1), ('mc-100k', 'Sustained $100k market cap', 100000, 2),
     ('mc-250k', 'Sustained $250k market cap', 250000, 3), ('mc-500k', 'Sustained $500k market cap', 500000, 4),
@@ -87,7 +87,7 @@ demo = {
     'commitmentScheme': 'sha256("<pos>|<char>|<salt>")', 'final': False,
 }
 config = """window.KEYPUZZLE_CONFIG = {
-  tokenName: 'KEYDRIP', ticker: '$KEYDRIP', contractAddress: '',
+  tokenName: 'The Vault Thief', ticker: '$THIEF', contractAddress: '',
   feeSplitProofTx: '',
   links: { pumpfun: 'https://pump.fun/', x: 'https://x.com/', telegram: 'https://t.me/' },
   rpcEndpoints: [], revealsUrl: '', refreshSeconds: 30,
@@ -112,7 +112,7 @@ for i, g in enumerate(_rev):
         'pos': g['pos'], 'char': g['char'], 'label': _labels.get(g['step']), 'revealedBy': g.get('revealedBy'),
         'verified': True, 'title': _labels.get(g['step']),
     })
-demo_feed = {'tokenName': 'KEYDRIP', 'ticker': '$KEYDRIP', 'events': demo_feed_events, 'game': {'status': 'live', 'winner': None}}
+demo_feed = {'tokenName': 'The Vault Thief', 'ticker': '$THIEF', 'events': demo_feed_events, 'game': {'status': 'live', 'winner': None}}
 feed_js = ("window.KEYPUZZLE_DEMO_FEED = " + json.dumps(demo_feed, ensure_ascii=False) + ";\n"
   "(function(){var f=window.KEYPUZZLE_DEMO_FEED,now=Date.now();"
   "f.events.forEach(function(e,i){e.ts=new Date(now-(i+1)*7*3600e3).toISOString();});"
@@ -123,14 +123,16 @@ css = rd('style.css').replace('url("assets/banner-header.png")', f'url("{banner_
 app = rd('app.js')
 sharingjs = rd('sharing.js')
 verifyjs = rd('verify.js')
+thievesjs = rd('thieves.js')
+effectsjs = rd('effects.js')
 html = html.replace('<link rel="stylesheet" href="style.css">', f'<style>\n{css}\n</style>')
 html = html.replace('assets/logo-vault-keyhole-512.png', logo_uri)
 html = html.replace('<meta property="og:image" content="assets/banner-header.png">', '')
-html = re.sub(r'<script src="config.js"></script>\s*<script src="sharing.js"></script>\s*<script src="verify.js"></script>\s*<script src="app.js"></script>',
-              lambda m: f'<script>\n{config}\n</script>\n<script>\n{sharingjs}\n</script>\n<script>\n{verifyjs}\n</script>\n<script>\n{demo_js}\n</script>\n<script>\n{feed_js}\n</script>\n<script>\n{app}\n</script>', html)
-html = html.replace('<title>TOKEN_NAME — Crack the key. Sweep the fees.</title>', '<title>KEYDRIP (DEMO) — The key drips. The pot grows. First sweep wins.</title>')
-html = html.replace('<h1>Crack the key.<br>Sweep the fees.</h1>', '<h1>The key drips.<br>The pot grows.</h1>\n    <p class="tagline">First sweep wins.</p>')
-html = html.replace('<p class="eyebrow">The vault is opening</p>', '<p class="eyebrow">The vault is opening <span class="demo-tag">DEMO</span></p>')
+html = re.sub(r'<script src="config.js"></script>\s*<script src="sharing.js"></script>\s*<script src="verify.js"></script>\s*<script src="app.js"></script>\s*<script src="thieves.js"></script>\s*<script src="effects.js"></script>',
+              lambda m: f'<script>\n{config}\n</script>\n<script>\n{sharingjs}\n</script>\n<script>\n{verifyjs}\n</script>\n<script>\n{demo_js}\n</script>\n<script>\n{feed_js}\n</script>\n<script>\n{app}\n</script>\n<script>\n{thievesjs}\n</script>\n<script>\n{effectsjs}\n</script>', html)
+html = html.replace('<title>The Vault Thief — $THIEF · crack the safe, sweep the vault</title>', '<title>The Vault Thief (DEMO) — crack the safe, sweep the vault</title>')
+html = html.replace('<h1>Crack the safe.<br>Sweep the vault.</h1>', '<h1>Crack the safe.<br>Sweep the vault.</h1>\n    <p class="tagline">A demo heist — sample data.</p>')
+html = html.replace('<p class="eyebrow">The safe is being cracked</p>', '<p class="eyebrow">The safe is being cracked <span class="demo-tag">DEMO</span></p>')
 html = html.replace('<div class="card-label">Prize pool · live</div>', '<div class="card-label">Prize pool · DEMO</div>')
 html = html.replace('<body>', '<body>\n<div class="demo-ribbon">DEMO · SAMPLE DATA</div>', 1)
 html = html.replace('</style>', '.tagline{font-family:var(--font-display);font-weight:700;font-size:clamp(20px,3.4vw,30px);color:var(--gold-bright);letter-spacing:.06em;margin:-6px 0 14px;text-shadow:0 0 18px rgba(212,175,55,.35)}\n</style>', 1)

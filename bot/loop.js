@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* KEYDRIP bot — run the tick forever (VPS/local). node bot/loop.js [--interval 120] [--config ...] [--mint ...] */
+/* The Vault Thief bot — run the tick forever (VPS/local). node bot/loop.js [--interval 120] [--config ...] [--mint ...] */
 const { execFileSync } = require('child_process');
 const path = require('path');
 const args = process.argv.slice(2);

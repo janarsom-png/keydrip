@@ -1,4 +1,4 @@
-# KEYDRIP — launch checklist
+# The Vault Thief — launch checklist
 
 A short, do-it-in-order checklist. Nothing here posts to X or sends a transaction on your behalf;
 the fee-split and generate steps are the only ones that touch a wallet, and both are dry-run / offline by default.
@@ -31,7 +31,7 @@ the fee-split and generate steps are the only ones that touch a wallet, and both
 - [ ] Push the repo to GitHub. In **Settings → Pages**, set the source to **GitHub Actions**.
 - [ ] Add Actions secrets (**Settings → Secrets and variables → Actions**):
       - `TOKEN_MINT` — the mint address (required).
-      - `KEYDRIP_SECRET_B64` — `base64 -w0 secrets/secret.json` (**optional**). Needed only for *milestone-early*
+      - `THIEF_SECRET_B64` — `base64 -w0 secrets/secret.json` (**optional**). Needed only for *milestone-early*
         reveals and the final full-key reveal on win. Omit it and the trustless time-locked path still opens every
         glyph at its deadline. Trust note: whoever holds this can reveal early — if you'd rather GitHub not hold it,
         run `node bot/loop.js` on your own machine with `secrets/secret.json` present instead.

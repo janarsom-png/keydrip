@@ -1,4 +1,4 @@
-# KEYDRIP (KeyPuzzle) — a pump.fun meme token with a leaking dev key
+# The Vault Thief (KeyPuzzle) — a pump.fun meme token with a leaking dev key
 
 The token is launched on pump.fun from your own creator wallet. pump.fun's **creator fee sharing** then routes **100% of creator fees, permanently, to a puzzle wallet**.
 The puzzle wallet's secret is revealed one character at a time. Whoever reconstructs it first controls the wallet: everything in it, and every future fee that arrives there.
@@ -204,15 +204,33 @@ here (with `secrets/secret.json` present) if you want milestone-early reveals wi
 
 **GitHub Actions** — `.github/workflows/keydrip-bot.yml` runs the tick every 10 minutes, commits
 `site/reveals.json`, `site/feed.json`, `reveal/milestones-state.json`, `bot/state/`, `drafts/`, and deploys `site/`
-to GitHub Pages. Secrets: `TOKEN_MINT` (required), `KEYDRIP_SECRET_B64` = `base64 -w0 secrets/secret.json` (optional,
+to GitHub Pages. Secrets: `TOKEN_MINT` (required), `THIEF_SECRET_B64` = `base64 -w0 secrets/secret.json` (optional,
 only for milestone-early + final reveals; omit for the fully trustless time-locked path). `reveal/milestones-state.json`
 is committed so the sustained-market-cap window survives across runs.
 
 **State files:** `bot/state/winner.json` (set once, sticky), `bot/state/last-reveals.json` (diff snapshot),
 `reveal/milestones-state.json` (mcap samples + triggered milestones). `bot/state/secret.runtime.json` (only if
-`KEYDRIP_SECRET_B64` is used) is git-ignored.
+`THIEF_SECRET_B64` is used) is git-ignored.
 
 **Winner state:** once won, `site/reveals.json` carries `game.status: "won"`, the winner tx + Solscan link + swept
 amount, and the fully-revealed key; the site flips to the winner view and keeps showing the sweeper-race notice.
 
 See **[LAUNCH.md](LAUNCH.md)** for the full step-by-step launch checklist.
+
+## Heist theme — animated crew & effects
+
+The site is themed as a safe-cracking heist: the creator-fee vault is a **safe**, each revealed glyph is a **cracked tumbler**, milestones are **locks popping**, and the winner is **the thief who cracked the vault**. This is purely cosmetic — the commitments, drand time-locks, verification and all game mechanics are unchanged.
+
+- `site/thieves.js` — SVG/CSS thief sprites that ring the safe (drill with sparks, stethoscope, crowbar, laptop, lockpick), with idle loops and occasional failure gags. The visitor's own thief is labelled **you**. It thins to fewer characters on mobile and goes still under `prefers-reduced-motion`.
+- `site/effects.js` — a small capped canvas particle engine (drill sparks, gold-coin bursts on reveals, dust + a vault shake on milestones, an alarm flash) plus the big **VAULT CRACKED** sequence for the winner state. It also diffs `reveals.json` across refreshes and emits `vault:fx` events the crew reacts to. It pauses when the tab is hidden.
+- The vault door, dial and tumblers are inline SVG in `index.html`, driven by `app.js` (`updateVault` lights one tumbler per cracked glyph).
+
+### Live thief presence (optional, OFF by default)
+GitHub Pages is static, so there is **no** true "one thief per live visitor" count out of the box — the site shows an **ambient crew** instead (a few thieves, your own labelled *you*). A pluggable hook is built in and disabled by default:
+
+```js
+// site/config.js
+presence: { enabled: false, endpoint: '' }
+```
+
+To show real concurrent visitors, stand up any realtime presence backend that broadcasts a live count (e.g. a free tier of a hosted realtime/websocket service, or a tiny Cloudflare Durable Object / Ably / Pusher / Supabase Realtime channel), then set `presence.enabled = true` and `presence.endpoint` to a WebSocket URL that emits either a bare number or `{ "count": N }`. The crew size follows that number (capped). Nothing is signed up for or contacted while it's off.

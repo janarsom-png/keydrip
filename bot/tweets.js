@@ -1,7 +1,7 @@
 // Ready-to-post X (tweet) text per event. The bot writes these to drafts/ and feed.json — it NEVER posts.
 const short = a => a ? a.slice(0, 4) + '…' + a.slice(-4) : '';
 function tweetFor(ev, cfg, reveals) {
-  const T = cfg.ticker || '$KEYDRIP', site = cfg.siteBaseUrl || '';
+  const T = cfg.ticker || '$THIEF', site = cfg.siteBaseUrl || '';
   const hidden = reveals && reveals.puzzle ? reveals.puzzle.hiddenCount : '?';
   const bits = reveals && reveals.puzzle ? reveals.puzzle.bitsRemaining : '?';
   switch (ev.type) {

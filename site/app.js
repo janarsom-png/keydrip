@@ -15,6 +15,38 @@
     navigator.clipboard?.writeText(t).then(() => { b.textContent = 'copied'; setTimeout(() => b.textContent = 'copy', 1200); });
   });
 
+  // ---- vault chrome (static SVG bits, built once)
+  function svgEl(tag, attrs) { const e = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function initVaultChrome() {
+    const bolts = $('#vaultBolts'), ticks = $('#dialTicks');
+    if (bolts && !bolts.childElementCount) {
+      for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2, x = 130 + Math.cos(a) * 114, y = 130 + Math.sin(a) * 114;
+        bolts.appendChild(svgEl('circle', { cx: x.toFixed(1), cy: y.toFixed(1), r: 5, fill: 'url(#brass)', stroke: '#8A6E2F', 'stroke-width': 1 })); }
+    }
+    if (ticks && !ticks.childElementCount) {
+      for (let i = 0; i < 36; i++) { const a = i / 36 * Math.PI * 2, big = i % 3 === 0;
+        const x1 = 130 + Math.cos(a) * 50, y1 = 130 + Math.sin(a) * 50, x2 = 130 + Math.cos(a) * (big ? 42 : 46), y2 = 130 + Math.sin(a) * (big ? 42 : 46);
+        ticks.appendChild(svgEl('line', { x1: x1.toFixed(1), y1: y1.toFixed(1), x2: x2.toFixed(1), y2: y2.toFixed(1), stroke: big ? '#F5D76E' : '#8A6E2F', 'stroke-width': big ? 1.6 : 1 })); }
+    }
+  }
+
+  // ---- tumblers reflect the hidden-glyph count; vault state reflects win
+  function updateVault(p) {
+    const t = $('#vaultTumblers'); const vault = $('#vault'); const status = $('#vaultStatus');
+    if (t) {
+      const total = (reveals.glyphs || []).length || p.length || 0;
+      const cracked = total - p.hiddenCount;
+      t.innerHTML = '';
+      for (let i = 0; i < total; i++) { const a = -Math.PI / 2 + i / total * Math.PI * 2, x = 130 + Math.cos(a) * 78, y = 130 + Math.sin(a) * 78;
+        const lit = i < cracked;
+        t.appendChild(svgEl('circle', { cx: x.toFixed(1), cy: y.toFixed(1), r: lit ? 4.5 : 3.5, fill: lit ? '#F5D76E' : '#2A2926',
+          stroke: lit ? '#D4AF37' : '#3D3A34', 'stroke-width': 1, class: lit ? 'pin lit' : 'pin' })); }
+    }
+    const won = (reveals.game || {}).status === 'won';
+    if (vault) vault.dataset.state = won ? 'won' : 'live';
+    if (status) status.textContent = won ? 'CRACKED' : (p.hiddenCount === 0 ? 'ALL OUT' : 'CRACKING');
+  }
+
   // ---- reveals.json
   async function loadReveals() {
     if (C.demo && window.KEYPUZZLE_DEMO_REVEALS) { reveals = window.KEYPUZZLE_DEMO_REVEALS; renderReveals(); return; }
@@ -65,6 +97,8 @@
       ol.appendChild(li);
     });
     $('#updated').textContent = `reveals updated ${new Date(reveals.generatedAt).toLocaleString()}`;
+    updateVault(p);
+    window.dispatchEvent(new CustomEvent('vault:reveals', { detail: reveals }));
     renderWinner();
     renderTriggers();
     tick();
@@ -80,8 +114,8 @@
       b.hidden = false;
       const w = g.winner || {};
       $('#winnerText').textContent = w.amountSol != null
-        ? `The key was reconstructed and ${w.amountSol} SOL was swept.`
-        : 'The key was reconstructed and the pot was swept.';
+        ? `The safe was cracked and ${w.amountSol} SOL was swept.`
+        : 'The safe was cracked and the vault was swept.';
       const link = $('#winnerLink');
       if (w.tx) { link.href = w.solscan || `https://solscan.io/tx/${w.tx}`; link.hidden = false; } else { link.hidden = true; }
       document.body.classList.add('won');
@@ -266,6 +300,7 @@
     }
   }
 
+  initVaultChrome();
   loadReveals();
   if (!C.demo) setInterval(loadReveals, (C.refreshSeconds || 30) * 1000);
 })();

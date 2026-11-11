@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * KEYDRIP end-to-end simulation (offline, mocked market cap + time).
+ * The Vault Thief end-to-end simulation (offline, mocked market cap + time).
  * Flow: launch -> milestones (14->9 hidden) -> endgame drip (9->6) -> sweep detected -> final full reveal.
  * Drives the REAL bot tick (bot/run.js) against the bundled TEST wallet, injecting milestone triggers and a
  * mock winner. Backs up and restores every file it touches, so it leaves the repo exactly as it found it.
@@ -116,7 +116,7 @@ const check = (name, cond, got) => { const ok = !!cond; results.push(`${ok ? 'PA
     fs.rmSync(p('drafts'), { recursive: true, force: true });
   }
 
-  console.log('\n=== KEYDRIP end-to-end simulation ===');
+  console.log('\n=== The Vault Thief end-to-end simulation ===');
   results.forEach(l => console.log(' ' + l));
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);

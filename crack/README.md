@@ -1,4 +1,4 @@
-# Cracking KEYDRIP
+# Cracking The Vault Thief
 
 The puzzle is the base58 of the vault wallet's 32-byte ed25519 seed (exactly 44 chars). Hidden glyphs show as `?`.
 To win: fill the `?`s, derive the ed25519 public key, and find the one combination whose public key equals the wallet address. Then import that key and move the funds before anyone else. **It's a race — first confirmed transaction wins.**

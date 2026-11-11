@@ -1,4 +1,4 @@
-// KEYDRIP bot — shared helpers. No posting, no sending; read-only RPC + file writes only.
+// The Vault Thief bot — shared helpers. No posting, no sending; read-only RPC + file writes only.
 const fs = require('fs');
 const path = require('path');
 const { Connection, PublicKey } = require('@solana/web3.js');

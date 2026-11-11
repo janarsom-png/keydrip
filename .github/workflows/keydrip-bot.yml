@@ -1,4 +1,4 @@
-name: KEYDRIP bot
+name: The Vault Thief bot
 
 # Runs one tick every 10 minutes: samples market cap, opens any time-locked glyphs whose deadline
 # has passed (NO secret needed — drand does it), checks for a winning sweep, rebuilds site/reveals.json
@@ -8,7 +8,7 @@ name: KEYDRIP bot
 #
 # Secrets (Settings → Secrets and variables → Actions):
 #   TOKEN_MINT            required — the pump.fun mint address.
-#   KEYDRIP_SECRET_B64    optional — base64 of secrets/secret.json. Enables MILESTONE-EARLY reveals and the
+#   THIEF_SECRET_B64    optional — base64 of secrets/secret.json. Enables MILESTONE-EARLY reveals and the
 #                         final full-key reveal on win. Omit it to run the fully trustless time-locked path:
 #                         glyphs still open at their drand deadlines without any secret.
 #                         Trust note: whoever holds this secret can reveal early. Prefer running the
@@ -40,7 +40,7 @@ jobs:
       - name: Run one tick
         env:
           TOKEN_MINT: ${{ secrets.TOKEN_MINT }}
-          KEYDRIP_SECRET_B64: ${{ secrets.KEYDRIP_SECRET_B64 }}
+          THIEF_SECRET_B64: ${{ secrets.THIEF_SECRET_B64 }}
         run: |
           if [ -z "$TOKEN_MINT" ]; then
             echo "TOKEN_MINT is not set yet (token not launched) — skipping the tick and just publishing the current site/."

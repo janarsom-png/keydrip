@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * KEYDRIP bot — ONE tick. Safe by design: read-only RPC + file writes only. Never posts to X, never sends on-chain.
+ * The Vault Thief bot — ONE tick. Safe by design: read-only RPC + file writes only. Never posts to X, never sends on-chain.
  *
  *   node bot/run.js [--config bot/config.json] [--mock-winner <file>] [--now <ISO>] [--no-winner-scan]
  *
@@ -8,11 +8,11 @@
  *   1. milestone-watch (one sample; sustained-window state persists in reveal/milestones-state.json — commit it).
  *   2. winner scan: is there a transaction signed by the puzzle wallet? If yes -> bot/state/winner.json.
  *   3. build site/reveals.json:
- *        - secret available (secrets/secret.json or env KEYDRIP_SECRET_B64)  -> milestone-early + final-on-win reveals
+ *        - secret available (secrets/secret.json or env THIEF_SECRET_B64)  -> milestone-early + final-on-win reveals
  *        - otherwise `--public`: deadline-passed glyphs opened from drand time-locks, NO secret needed.
  *   4. diff vs last tick -> events (reveal / milestone / endgame / win) -> site/feed.json + drafts/<ts>-<type>.txt.
  *
- * Env: KEYDRIP_SECRET_B64 (base64 of secret.json) enables milestone-early reveals on CI; omit for the trustless
+ * Env: THIEF_SECRET_B64 (base64 of secret.json) enables milestone-early reveals on CI; omit for the trustless
  * time-locked path. See LAUNCH.md / README operator runbook.
  */
 const fs = require('fs');
@@ -34,17 +34,17 @@ const run = (file, a) => { try { execFileSync(node, [p(file), ...a], { stdio: 'p
 
 function materializeSecret() {
   if (fs.existsSync(p('secrets/secret.json'))) return p('secrets/secret.json');
-  if (process.env.KEYDRIP_SECRET_B64) {
+  if (process.env.THIEF_SECRET_B64) {
     const f = path.join(STATE, 'secret.runtime.json');
     fs.mkdirSync(STATE, { recursive: true });
-    fs.writeFileSync(f, Buffer.from(process.env.KEYDRIP_SECRET_B64, 'base64').toString('utf8'), { mode: 0o600 });
+    fs.writeFileSync(f, Buffer.from(process.env.THIEF_SECRET_B64, 'base64').toString('utf8'), { mode: 0o600 });
     return f;
   }
   return null;
 }
 
 (async () => {
-  console.log(`KEYDRIP tick @ ${new Date(now).toISOString()}  mint=${MINT || '(unset)'}`);
+  console.log(`The Vault Thief tick @ ${new Date(now).toISOString()}  mint=${MINT || '(unset)'}`);
   const already = readJson(WINNER, null);
 
   // 1. milestone sample (skip if already won)
@@ -55,7 +55,7 @@ function materializeSecret() {
 
   // 2. winner scan
   let winner = already;
-  const mock = opt('--mock-winner') || process.env.KEYDRIP_MOCK_WINNER;
+  const mock = opt('--mock-winner') || process.env.THIEF_MOCK_WINNER;
   if (mock && !winner) { winner = readJson(path.resolve(mock), null); if (winner) { writeJson(WINNER, winner); console.log('2. winner injected (mock).'); } }
   else if (!winner && MINT && !args.includes('--no-winner-scan')) {
     console.log('2. winner scan…');

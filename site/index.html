@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TOKEN_NAME — Crack the key. Sweep the fees.</title>
-<meta name="description" content="100% of creator fees are locked to one vault wallet, and its key is revealed glyph by glyph. Whoever reconstructs it first sweeps the pot.">
-<meta property="og:title" content="TOKEN_NAME — Crack the key. Sweep the fees.">
-<meta property="og:description" content="The vault is opening. One glyph at a time.">
+<title>The Vault Thief — $THIEF · crack the safe, sweep the vault</title>
+<meta name="description" content="A heist game on pump.fun. 100% of creator fees are locked inside a safe, and its combination is cracked one tumbler at a time. The first thief to crack it sweeps the vault. It's a game — the prize is the vault's own contents; no one is being stolen from.">
+<meta property="og:title" content="The Vault Thief — $THIEF · crack the safe, sweep the vault">
+<meta property="og:description" content="The safe is being cracked, one tumbler at a time. First thief to the combination takes the vault.">
 <meta property="og:image" content="assets/banner-header.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/logo-vault-keyhole-512.png">
@@ -34,20 +34,59 @@
   <section class="hero">
     <div class="winner-banner" id="winnerBanner" hidden>
       <span class="wb-badge">VAULT CRACKED</span>
-      <span class="wb-text" id="winnerText">The key was reconstructed and the pot was swept.</span>
+      <span class="wb-text" id="winnerText">The safe was cracked and the vault was swept.</span>
       <a class="wb-link" id="winnerLink" target="_blank" rel="noopener">View sweep on Solscan ↗</a>
-      <span class="wb-note">The fee split is permanent, so creator fees keep arriving here — it's a sweeper race now.</span>
+      <span class="wb-note">The fee split is permanent, so creator fees keep arriving at this safe — it's a thieves' race now.</span>
     </div>
     <div class="hero-bg" aria-hidden="true"></div>
-    <p class="eyebrow">The vault is opening</p>
-    <h1>Crack the key.<br>Sweep the fees.</h1>
-    <p class="lede">Every creator fee of <b data-bind="ticker">$TICKER</b> is locked to one vault wallet, and that wallet is leaking its secret, glyph by glyph. Whoever reconstructs it first takes the entire prize pool.</p>
+    <p class="eyebrow">The safe is being cracked</p>
+    <h1>Crack the safe.<br>Sweep the vault.</h1>
+    <p class="lede">Every creator fee of <b data-bind="ticker">$TICKER</b> is locked inside a safe, and its combination is slipping out one cracked tumbler at a time. The first thief to crack the whole combination sweeps the entire vault.</p>
+
+    <div class="vault-stage" id="vaultStage" aria-hidden="true">
+      <canvas class="fx-canvas" id="fxCanvas"></canvas>
+      <div class="spotlights"></div>
+      <div class="laser-grid"></div>
+      <div class="vault-wrap">
+        <div class="vault" id="vault" data-state="live">
+          <svg class="vault-door" viewBox="0 0 260 260" width="260" height="260" role="img" aria-label="A safe being cracked">
+            <defs>
+              <radialGradient id="steel" cx="38%" cy="32%" r="80%">
+                <stop offset="0%" stop-color="#26241f"/><stop offset="55%" stop-color="#17150f"/><stop offset="100%" stop-color="#0b0a08"/>
+              </radialGradient>
+              <radialGradient id="brass" cx="38%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#F5D76E"/><stop offset="45%" stop-color="#D4AF37"/><stop offset="100%" stop-color="#8A6E2F"/>
+              </radialGradient>
+            </defs>
+            <circle cx="130" cy="130" r="124" fill="#0b0a08" stroke="#3D3A34" stroke-width="3"/>
+            <g class="bolts" id="vaultBolts"></g>
+            <circle cx="130" cy="130" r="104" fill="url(#steel)" stroke="#3D3A34" stroke-width="2"/>
+            <circle cx="130" cy="130" r="104" fill="none" stroke="rgba(212,175,55,.18)" stroke-width="1"/>
+            <g class="tumblers" id="vaultTumblers"></g>
+            <g class="dial" id="vaultDial">
+              <circle cx="130" cy="130" r="52" fill="url(#steel)" stroke="url(#brass)" stroke-width="3"/>
+              <g id="dialTicks"></g>
+              <circle cx="130" cy="130" r="30" fill="#0b0a08" stroke="url(#brass)" stroke-width="2"/>
+              <rect x="127" y="82" width="6" height="26" rx="3" fill="url(#brass)"/>
+              <circle cx="130" cy="130" r="5" fill="#F5D76E"/>
+            </g>
+            <g class="handle" id="vaultHandle">
+              <rect x="126" y="196" width="8" height="42" rx="4" fill="url(#brass)"/>
+              <rect x="96" y="214" width="68" height="8" rx="4" fill="url(#brass)" transform="rotate(42 130 218)"/>
+            </g>
+          </svg>
+          <div class="vault-plate"><span id="vaultStatus">CRACKING</span></div>
+        </div>
+        <div class="thief-layer" id="thiefLayer"></div>
+      </div>
+      <div class="vault-caption" id="vaultCaption"><span id="crewCount">a crew of thieves is working the safe</span></div>
+    </div>
 
     <div class="key-wrap">
       <div class="key-grid" id="key" aria-label="Partially revealed vault wallet seed">
         <div class="loading">loading reveals.json…</div>
       </div>
-      <p class="key-meta">Vault wallet seed · <span id="revealedMeta">? / ?</span> glyphs revealed · <span id="hiddenCount">?</span> sealed</p>
+      <p class="key-meta">Safe combination · <span id="revealedMeta">? / ?</span> tumblers cracked · <span id="hiddenCount">?</span> still locked</p>
     </div>
 
     <div class="stats">
@@ -72,7 +111,7 @@
       <a class="cta-ghost" id="walletLink" target="_blank" rel="noopener">View wallet</a>
     </div>
     <div class="ca" id="caBox" hidden>CA <code id="ca"></code> <button class="mini" data-copy="#ca">copy</button></div>
-    <p class="fineprint">First valid transaction wins. Not financial advice.</p>
+    <p class="fineprint"><b>It's a game.</b> The vault's contents are the prize — no one is being stolen from. First valid transaction wins. Not financial advice.</p>
   </section>
 
   <section class="grid2">
@@ -140,6 +179,7 @@
   <section class="card prose rules" id="rules">
     <h2>Rules &amp; disclaimers</h2>
     <ul>
+      <li><b>This is a game.</b> The vault's contents — the token's own creator fees — are the prize. The &ldquo;thief&rdquo; who cracks the combination simply claims that pot. No person, wallet, or third party is being stolen from.</li>
       <li><b>First to sweep wins.</b> If several people crack the key, it's a race and the first confirmed transaction takes it. No refunds, no appeals, no do-overs.</li>
       <li>Anyone holding the key can do anything the vault wallet can: move its SOL, trigger distributions, and sell any tokens it holds. Future creator fees keep arriving at the same wallet, so whoever controls it keeps collecting until someone else moves faster.</li>
       <li>The fee split is locked by pump.fun's program (admin revoked). The only exception documented in pump.fun's SDK is a platform-run community takeover (CTO) by pump.fun itself.</li>
@@ -154,7 +194,7 @@
 </main>
 
 <footer>
-  <span><span data-bind="tokenName">TOKEN_NAME</span> · <span data-bind="ticker">$TICKER</span> · the vault is opening</span>
+  <span><span data-bind="tokenName">TOKEN_NAME</span> · <span data-bind="ticker">$TICKER</span> · crack the safe, sweep the vault</span>
   <span id="updated"></span>
 </footer>
 
@@ -162,5 +202,7 @@
 <script src="sharing.js"></script>
 <script src="verify.js"></script>
 <script src="app.js"></script>
+<script src="thieves.js"></script>
+<script src="effects.js"></script>
 </body>
 </html>
