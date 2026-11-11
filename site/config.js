@@ -11,7 +11,7 @@ window.KEYPUZZLE_CONFIG = {
   links: {
     pumpfun: 'https://pump.fun/', // e.g. https://pump.fun/coin/<MINT>
     x: 'https://x.com/thevaultthief',
-    telegram: 'https://t.me/thevaultthief',
+    telegram: 'https://t.me/thethieffun',
   },
   // Public Solana RPC endpoints, tried in order. Browser needs CORS; these send Access-Control-Allow-Origin: *.
   // For real traffic use your own key (Helius, QuickNode, Alchemy...) — public endpoints rate-limit hard.

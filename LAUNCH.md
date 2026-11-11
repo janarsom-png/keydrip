@@ -60,7 +60,7 @@ the fee-split and generate steps are the only ones that touch a wallet, and both
 Until you launch, the public site must **not** show the game. The GitHub Actions workflow handles this automatically using one repo variable and one secret — no code change needed to go live.
 
 **How it works (`.github/workflows/keydrip-bot.yml`, "Assemble Pages output" step):**
-- While the repo **variable** `LAUNCHED` is anything other than `true` (the default), the workflow deploys the **teaser** (`teaser/`) to the site root (`https://thethief.fun`). The teaser shows the locked-vault animation, "THE VAULT IS BEING LOCKED / Sealing the safe… / The heist opens soon." and the X link — **no countdown, no prize numbers, no hype**. It is allowed to be indexed by search engines.
+- While the repo **variable** `LAUNCHED` is anything other than `true` (the default), the workflow deploys the **teaser** (`teaser/`) to the site root (`https://thethief.fun`). The teaser shows the locked-vault animation, "THE VAULT IS BEING LOCKED / Sealing the safe… / The heist opens soon." and the Telegram link (t.me/thethieffun) — **no countdown, no prize numbers, no hype**. It is allowed to be indexed by search engines.
 - For your own private preview, the workflow publishes the **full game** at `https://thethief.fun/p/<PREVIEW_SLUG>/`, where `PREVIEW_SLUG` is a random, unguessable value stored **only** as an Actions **secret** (never committed). The preview page carries `<meta name="robots" content="noindex, nofollow">` and the deployed `robots.txt` disallows the `/p/` prefix, so it stays out of search results. The slug prefix in `robots.txt` never reveals the secret slug itself.
 
 **One-time setup (already done for this repo):**
