@@ -1,64 +1,64 @@
 {
   "version": 2,
   "wallet": "6pXpQ9m1mWyndtEftrZH1YvSyk2sKszrhr8WaUV87jCg",
-  "launch": "2026-11-09T17:56:08.000Z",
+  "launch": "2026-11-11T10:00:00.000Z",
   "scheduleSteps": [
     {
       "index": 0,
-      "id": "mc-50k",
-      "label": "Sustained $50k market cap",
+      "id": "mc-30k",
+      "label": "Sustained $30k market cap",
       "milestone": {
-        "mcapUsd": 50000
+        "mcapUsd": 30000
       },
-      "deadline": "2026-11-10T17:56:08.000Z",
+      "deadline": "2026-11-11T12:30:00.000Z",
       "glyphs": [
         0
       ]
     },
     {
       "index": 1,
-      "id": "mc-100k",
-      "label": "Sustained $100k market cap",
+      "id": "mc-75k",
+      "label": "Sustained $75k market cap",
       "milestone": {
-        "mcapUsd": 100000
+        "mcapUsd": 75000
       },
-      "deadline": "2026-11-11T17:56:08.000Z",
+      "deadline": "2026-11-11T15:00:00.000Z",
       "glyphs": [
         1
       ]
     },
     {
       "index": 2,
-      "id": "mc-250k",
-      "label": "Sustained $250k market cap",
+      "id": "mc-150k",
+      "label": "Sustained $150k market cap",
       "milestone": {
-        "mcapUsd": 250000
+        "mcapUsd": 150000
       },
-      "deadline": "2026-11-12T17:56:08.000Z",
+      "deadline": "2026-11-11T17:30:00.000Z",
       "glyphs": [
         2
       ]
     },
     {
       "index": 3,
-      "id": "mc-500k",
-      "label": "Sustained $500k market cap",
+      "id": "mc-300k",
+      "label": "Sustained $300k market cap",
       "milestone": {
-        "mcapUsd": 500000
+        "mcapUsd": 300000
       },
-      "deadline": "2026-11-13T17:56:08.000Z",
+      "deadline": "2026-11-11T20:00:00.000Z",
       "glyphs": [
         3
       ]
     },
     {
       "index": 4,
-      "id": "mc-1m",
-      "label": "Sustained $1M market cap",
+      "id": "mc-600k",
+      "label": "Sustained $600k market cap",
       "milestone": {
-        "mcapUsd": 1000000
+        "mcapUsd": 600000
       },
-      "deadline": "2026-11-14T17:56:08.000Z",
+      "deadline": "2026-11-11T22:30:00.000Z",
       "glyphs": [
         4
       ]
@@ -66,9 +66,9 @@
     {
       "index": 5,
       "id": "drip-1",
-      "label": "Endgame drip 9 → 8",
+      "label": "Time-lock drip (8h left)",
       "milestone": null,
-      "deadline": "2026-11-21T17:56:08.000Z",
+      "deadline": "2026-11-12T01:00:00.000Z",
       "glyphs": [
         5
       ]
@@ -76,9 +76,9 @@
     {
       "index": 6,
       "id": "drip-2",
-      "label": "Endgame drip 8 → 7",
+      "label": "Time-lock drip (7h left)",
       "milestone": null,
-      "deadline": "2026-11-28T17:56:08.000Z",
+      "deadline": "2026-11-12T03:00:00.000Z",
       "glyphs": [
         6
       ]
@@ -86,22 +86,40 @@
     {
       "index": 7,
       "id": "drip-3",
-      "label": "Endgame drip 7 → 6",
+      "label": "Endgame drip (5h left)",
       "milestone": null,
-      "deadline": "2026-12-05T17:56:08.000Z",
+      "deadline": "2026-11-12T05:00:00.000Z",
       "glyphs": [
         7
       ]
     },
     {
       "index": 8,
-      "id": "final",
-      "label": "Season end: all remaining glyphs",
+      "id": "drip-4",
+      "label": "Endgame drip (3.5h left)",
       "milestone": null,
-      "deadline": "2026-12-19T17:56:08.000Z",
+      "deadline": "2026-11-12T06:30:00.000Z",
       "glyphs": [
-        8,
-        9,
+        8
+      ]
+    },
+    {
+      "index": 9,
+      "id": "drip-5",
+      "label": "Endgame drip (2h left)",
+      "milestone": null,
+      "deadline": "2026-11-12T08:00:00.000Z",
+      "glyphs": [
+        9
+      ]
+    },
+    {
+      "index": 10,
+      "id": "final",
+      "label": "Vault opens: final glyphs + full seed",
+      "milestone": null,
+      "deadline": "2026-11-12T10:00:00.000Z",
+      "glyphs": [
         10,
         11,
         12,
@@ -110,9 +128,10 @@
     }
   ],
   "milestoneRule": {
-    "windowMinutes": 60,
+    "_note": "Short game => short sustained window: 12 min continuous on >=2 independent sources, no gap > 4 min. Wash/one-block spikes can't trigger it.",
+    "windowMinutes": 12,
     "minSources": 2,
-    "maxGapMinutes": 10,
+    "maxGapMinutes": 4,
     "sources": [
       "dexscreener",
       "birdeye",
@@ -133,127 +152,127 @@
       "k": 0,
       "pos": 22,
       "commitment": "ee3f571efcfb08ade1567f1000a5bfd517c5058e5c369f27d076d0033e185518",
-      "step": "mc-50k",
-      "deadline": "2026-11-10T17:56:08.000Z",
-      "round": 33843334,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODQzMzM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKamtJMko1NDFuU2RBN1FRVStwVlU5SWlBRGl0bHRpeEFtVFUvQXZs\nY2xqME5RUElRYjk1YnBIaVJxVEptUElMSApHVVcvblRKREVTY1Fyb1NkWFlDSnpr\nSCtmaDZQMmxRVTZuSnBKeElOZDlMcDZGNE01MEp0Z3pYQzhJMGFSd0FQClNTcXNN\nMnI5TWRSNERLdUFsZGN0Zk8zT2tKMjg3MXROOVl1WjVwbjlOVGsKLS0tIEtxcEJZ\nVHpHWDBtOUpiNHQ0dWRHdkhWbU9YVmhUaVNtUGhseDJ3SzVWM28KQZzk/HjN6PSx\n6xhbqHmeCuSBqmgir5c+Fxt5+8ahPz0yqaLmXxT1RdBLV8D3zDkMJidF6a00BFDz\n4mRMe545TidSv5jiwR6tVZ7NzTnhObEdBqfVGTnvYeXRrkfTaRg=\n-----END AGE ENCRYPTED FILE-----\n"
+      "step": "mc-30k",
+      "deadline": "2026-11-11T12:30:00.000Z",
+      "round": 33865612,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODY1NjEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKdGxkcXNHK3NjaXNYMFBQL1BQdjNsVTRRbmp2emVYWk1LWnZrb2FM\nNVVQK0V2Mkp2Mk0yUGtFdXFKa3lPWElpMgpGbDc0MHpVNmJoZXhyNkxrTHoxYVRV\ncTYwRitpVFI5ZUxabk1XeEdoR2xvMlNIWS9MOVFvNDlaRkFkRTFvZ21YCjFiUkpy\naGkrSVBoTXBKKzRieVpNalZTUE9vMVVXS2FaQ0UxRGV0Z0R2VXMKLS0tIDVBVXVY\nRlAreDEyTnM1L3VldWgyOUEwaU5nUkFSR1Z3eWs0bjVXTVBoSWsK2hS1ujATizxl\nz+5wliwb1RHC2rxEIfvB8xkS3fa+JwP/6w54gIWdYkX3GfIojttSsT6yvu971VC+\n7cCdUSXWMS4Z9OL85qbhG7n7aNacUn37Df0oadLN5mbJrZ04F34=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 1,
       "pos": 29,
       "commitment": "9c215629bbc928985b69e9fd4e93a1ede4cebb7dd74519acf68d410fa3c5453b",
-      "step": "mc-100k",
-      "deadline": "2026-11-11T17:56:08.000Z",
-      "round": 33872134,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODcyMTM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKcFhSRGJyZzhIekZzZnJmNm5DOHhVcU1vSHptRVhqQU9mdGFPZHNB\nWkF2RndycDIvVkN5WEsxdHZpR0Vub3dqNwpBakJtYVBlZXg1WFJzRXpROGpsWFpw\nbVh6VTBzKzgxN1pTek90bjJwVlN6eVFWV3liNm9UUWd5SUpIenByZVpUCi81a2s1\nVmxXZFMvRzMwNFFENWJPNjh0UDc2MG5mYlEzNWhud2pDaDRsSGsKLS0tIDlKODZY\neExMS3FYVzRGTmtuZURibUVIT1hNSGgyR3BNUC9SbjdEanV2S1UKONmbADYnpc3q\nwpSZLNeCrCap4r9iH/Qd6KilhgFORK5ZGVHZU1Cbeyk5LIP0dglEAkLUkHgB8JCB\nOrkMgvfC/Uhxlv9xXGmffQ+4uHcJjKVuHgnnotxm1wx8IZQDQc8=\n-----END AGE ENCRYPTED FILE-----\n"
+      "step": "mc-75k",
+      "deadline": "2026-11-11T15:00:00.000Z",
+      "round": 33868612,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODY4NjEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKa0JDek9IV1FMTjBycVJjRDcvb2t1dmZoVzJFUzJ4bVJqK1greXFh\neGxnZ2dZZG85RjgzQ3N6RmZ4MURhaE1zRwpDVmFlWUQ3U2NHWEZVdTRjZXJoVmVp\ncERoWGtrRWRyOU5BeUkydER4dm1YK0VkcXg0dEpGUzZ2NVdQUUNDRldtCnhOcytW\nOFdIbEpGQ2VreGYvM0FiVmxwYTZYSWN3K2wzYmlqaWhLUVFBZ0UKLS0tIFhNVnFo\ncDhqaU5IRlB3NngyU3RyTkJGT2ozWmU2b1ZYdUVjQXNYU3IyN3MK0MOV372KfDvO\nFqqHvFLeCiq6uXufgGRgjv8HTbJaMVEhChaOgJEFq7G1rsTYlI/BGmcSB3xjbvPu\ne58XoawKNd6vCc62pnOUdOePj17O5C5CGPEk1xOc8Vr7T8WLXv4=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 2,
       "pos": 30,
       "commitment": "702d783c39977297d6c2c89a3a12a5d88a672d59cad08fa6e9ee3905916fa838",
-      "step": "mc-250k",
-      "deadline": "2026-11-12T17:56:08.000Z",
-      "round": 33900934,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzOTAwOTM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKb2RIZnhJUmJBalB6S0xQNjdNQlI0Z0NNSEpCWGV5V0s2clI2bnFY\nWXJHdERpQzdGbnpvZWxVZnZZMGhCSGJSbgpDSklqNjYybWZMRVJGVEcrR3JHaUls\nYVhqdlJtWGhiQlo3NUUxc3RIMlBNeTVKOWJMeU5EUUJEMzJHdjJuRkJQCmx2anA3\nMy9xOG81K1BkNG9LOWE5M3dYalorZFpxZ1M5azlncitDMStMRzgKLS0tIGtCMEk3\namxla2tMeFU2R0VTeTBYNVVpSXNGR2lpczB5S2FNU2Rqdk0rOUEKr2dp7fEDcRoY\nx7hA4Zj/jPI2YJPQU4hvZcjZt4o5WMRV32Rr18c1voLMadqmvPd3gKYJEZ94cSWa\nTbLuvTNQymtOM9jQ3BKW3oZQ5tIb7xwia7j5tSwMxiTba1/8AFM=\n-----END AGE ENCRYPTED FILE-----\n"
+      "step": "mc-150k",
+      "deadline": "2026-11-11T17:30:00.000Z",
+      "round": 33871612,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODcxNjEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKcFF2T2paZW5nbk9NVXJjWmJlZmxzQ1VXYlVKU3Z2VmJoWW4xcHYr\nUm13SXh2cW55cUduVkJPYUt6ai9tTUhKTQpEVnBCa3JvOEt4a3VlbXVScEs0bkRU\nai9EWXNDTm5vbnlxMFZ6NVVDRTBuT3o2V05PQUNzSm5KRnNtYk01NTZmCnhYd0tD\neGo0QmFubUY2dDA2RzltWmJiYjNTOGtBUG96MHovZ0lzRGN0NjgKLS0tIHBhenFv\ndE5oYk80eGQrMkkyRUZPNVhoNXpnckFWSS92bVQ5WjFqQXQxTWcKJ8fShi6g6mqh\njfiSOrgRYuC19YUJU+oFWKPfO376uKe5sslKNtOCP+dzJ7YWdYBmR77SeRjEyptu\nJP/GVZsPtl85TZsN3GGxDhHG5QxpZO87AsIUlr0Mhe1PreKOTj0=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 3,
       "pos": 32,
       "commitment": "63402641666ffa93d6b973471b00f04131042c1edf64332cbf89a7c7ecae80e9",
-      "step": "mc-500k",
-      "deadline": "2026-11-13T17:56:08.000Z",
-      "round": 33929734,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzOTI5NzM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKbUFVRnRGaDJjbHkzbk1BZGJ4YkQ3djRTWFRCeXFhQzdTeWRJMFVP\nS3hYQkE5b3F5aWIvK2lRSEhhbEdQa0dDbwpBaVBLSmNtV1lUQ3A2SFBhcDJPYnla\nNzRJQ2ZvcUZreHJ4TDdBMlB2VXlHMkVQS2x3eUE2VFZYNEJXNHI3T2UzCnVPbVZ5\nY2NKbDBuS1ZNNlcweHFRci80SGRVNUh1VVl0a0YrUitVTjZWTnMKLS0tIDM1cnE4\nNFdMWXBaM2tvRG5FSmdJMzMzaU1qWk5OMXlIS3RGaUNwekJEa0UKC22MooYZDX82\nnyB/zgOsFSCSoomWjpLUtNbJbKQ/qrDN4uBHTXiL7Wo4iz8ReCBtzwe3DBmUd0ue\nWLsatP4pTjOEhT3My+zBjwNxSkHEwR+ik8vl+GOWTy/y8Fbj1xA=\n-----END AGE ENCRYPTED FILE-----\n"
+      "step": "mc-300k",
+      "deadline": "2026-11-11T20:00:00.000Z",
+      "round": 33874612,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODc0NjEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKb21ONnVZdkVDV0tyNEt4a2tuaDRsVFlKVDVLbGNBL3VUc1dZUGFi\nK0hsaWVBbW1mOGtocGxNWVNYVWcvMCtBUgpHSGZobWdmckhtQ081dzdUTnJzUWY5\nVEF3Z0pBbEZXSXFETkdEN25TQkhTb3M2Z0UvNzhrRE0ydkpyVEZ3ZDFsCnp2bmlq\nYzRISFNXUG91cXdxbHkwM0ZzcGRXMWlDZEw3eGFqOTQ1Mm13TzgKLS0tIGNtRW0w\nQlZ0K3J2NjFaWGE1Zm10UFNnK0ZhV1ZCcVc4T2hLYjdJNld3dkkKshAc1Z+L84oL\nW4o9j9rSQLkOhhgRNCNX6sCoYVJQGqwjPAjG24K/cL8cL1a2jjoMrAChy2HCTzQd\n7g3z7kIZT0tZvjrHYXgZ3wpMMa2XolFbFPH2Sk47WMRsGMewtos=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 4,
       "pos": 3,
       "commitment": "08fc8736a19e421656768354b5e8e5ae7c97c8d558fd2a9082211f921b8b8926",
-      "step": "mc-1m",
-      "deadline": "2026-11-14T17:56:08.000Z",
-      "round": 33958534,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzOTU4NTM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKZ05RSTM4T2lla0RrdDRhZzF6ZDlUbGFWZkh0QVdWWWl4dXlWSVlU\nQ3UvY2djMGRpSFo4N1BRRDNadmJaZVBCSgpEVjBaTm4rdVdBK2lDQ0d3QXdJZ1Jm\nQjFOcHVHOGUzdk11a3dEa0xVOURwN3VwWk9ESyt3dEdtMXRlbklRZE42CldUSkxM\ndWF6UWo2bTNKS3RqZXdNSGxSTmVvRnRtQVVoaGVXeURqUlpOamMKLS0tIEdNaklP\nb3J6QlRzS1RNcHZTdEhWQ3lTWEZUVk1HZmx5WHY2cFZQNlVWTVUKxZDnrrmxz68r\n6dcKVCoagymzxgakpFL9+rwp+LgIrG/YRSviLOc8TC2g17gMLrsLCB6uTQKTJ29u\nUMEqV1VwK8wyN45VKSu2p3CTUcczDModLbXfaOpX/2DENaEtDg==\n-----END AGE ENCRYPTED FILE-----\n"
+      "step": "mc-600k",
+      "deadline": "2026-11-11T22:30:00.000Z",
+      "round": 33877612,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODc3NjEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKbFUvWlIyNzNaa1F2SUQzNGY3ZlFRc2tKRDhGNFlmTjlQMGE4Q3R5\na2RWY2NZVUFZQjdjZUVTMS9wZnlvTjZmZgpGcmpjVnAzL1pWQnRxeDhiN3cvaG5E\nL1Zlc2g5QkZuekJ6QlVMWDJjaWc0eFNCeTV1V2hkcnZ0V3Rld21zcitwClhkY0FG\nZ0FjS2NSQlI2eUJvNVlTVHUvcU4xUXFoQ2RUS3I4ci9VL29haDQKLS0tIDVyS3pk\nL1lDQmNpYktHOFkzM29aZWYzZ2R6ZTcwdnM0TGYvK0czRWZEc1EKmnjXrIAsieO5\nZXkOI2osAKq2s1p3iR9z/5bi/hudhleUorKxqzS0Gej9G1pXKEzFIRVlejWpjiCV\nDfNI9t5A5ToK0E/f8krXu5jlx44chYwylW+2e/To+GtCq3HCUQ==\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 5,
       "pos": 42,
       "commitment": "7bfd8b13a9e95577c398a785755ffdfd6779ce038e9dd94b48b54ef23c6ad746",
       "step": "drip-1",
-      "deadline": "2026-11-21T17:56:08.000Z",
-      "round": 34160134,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDM0MTYwMTM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKZ1Y2NXJUVlBwNlp4Y1gxdTF1MC9lMlF1dUYrMGxlQ2FtVzFva0w5\nOUhsMEVZOXlmMTNtMkZ1RkpidDV5UStDMQpFOW5qU1JWalNWZWJ0WUVFTFEzcisx\nQUxRYlVINER5bnpSY3Z4RnlHeGxOWWtqN05pVndUYmQ1T2RMYzhQekh4CitTdTVI\nUk9TTWtJMk10VERmZ0xYQlNPWmF6Q2MvWE1iR2ljeWdCeFlRYWsKLS0tIFJPOXI4\neG1lZm1rMXllcDVTR2VkdUt4UmZzdDBRNEpZTFk3a0VDMEFySWMKGeKflRCb5HJ8\naSn7rmoyuu7ssG76VzsSPnw7mgLWr1epORX6AqrIs4MEpolF8M0ppdC+MRqDRKAD\nPBehz+77PGtxh0fy5+dpCydZUo3dBtNX1ZzjhBfYvYvIw5fYUeY=\n-----END AGE ENCRYPTED FILE-----\n"
+      "deadline": "2026-11-12T01:00:00.000Z",
+      "round": 33880612,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODgwNjEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKcVZXRmVxOU9aY2xBZlc4REVIbDRCaGZVREt6V2dTNVp3MEwrVG9Z\nVXA1UFJxdUVwcDdSZ000R1UxUkFkdTBsSwpGUjJ6eXJQNVpEWUJzUlgrOW11S2lD\nZGE5WEkvbEV2OVdzNEx0SHZxazkzL2E5NU9WbmRNUW13Vmp2MzhkR3NSCnVqYlh0\nM002VWY4b3NtZG1ROWdOSnBsYU5ZQXJCb3BmR3F3c0pyWDRQNUkKLS0tIGpFcDhB\nL3daeEFjeGJxL1hBS0tFZVJSdmVqRVJjaGVmNWF3UlJ0MDJncDQKVVUB5o3/EVij\nC26tbBYuMKImIQAsSN3RF9D8CqUZAxSQwvqBY7yLVGZyb6oV/qs3rkZG+x9B1kHQ\n1KnU+Bx6I9TFImwVkSuVvbSjNjJnY57wqPGtp5VJnWf01C9wc5o=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 6,
       "pos": 40,
       "commitment": "fb2dcc4aa43958e8ea9df71e9db21c8d6c95b524e1470413027188af6383202a",
       "step": "drip-2",
-      "deadline": "2026-11-28T17:56:08.000Z",
-      "round": 34361734,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDM0MzYxNzM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKZ2Q1Um9QbFJrZ3ZiN3k5ZHdkZTU0OTd2UU84WTZydHd5Qjl3TGJn\nWHJmdExsSDgwdFNveS84UGxLSm1kYWdRRgpEc3FNZFpzWWN3Z3VZblhiNjBXOEpy\nblVaeXNweHV2WC9tR2o0dG1ZWkFXZjZueFlucDZUZ3FIaDNRT0dvZkNCClJpWW1i\nakhhV1BoZVViL3RoVm1WaXh1dnJCYnQ1czNBVUk1RWl4Mm9qTkEKLS0tIHFha3ZL\nbTRxeUs0Y3FXN1JCVm1jZFFoWmhnVUNEM1Rsb0FOSVUvc0VEU0EKN+uhw4VlmHxU\n7kVrChTl7HsSXMw8djA+K5rTPiHNX5zomzIPDoT/iEoaDp/uUfBTfUzErR5kKx+r\nC0RsRUUhDCaddwmcQqJewUSHJJ5gK/f3SB4rIpaAbOGoMPHiQN4=\n-----END AGE ENCRYPTED FILE-----\n"
+      "deadline": "2026-11-12T03:00:00.000Z",
+      "round": 33883012,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODgzMDEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKbzhWb3U2am9Qa0dZZ2U1eDVRN0grdFdPQWhBRy9YTE9YM3B3NEh1\nRDFiYXhBWFNTUnJiMGJPWEgxMEVzL3ZVVQpCRG11MjRBdnRJVzVtUXJEQjV2Yi9v\nWTBiMExuVEtqQzVoMiswWWo4c1lGdXFCRlU1dEZCKzdiY3pYOVZhelExCk50Und6\nSW10UURLVUJuTC9nMUZIcjRxU1NsREVvNGdPcjNhbmZwV2RobW8KLS0tIHVTWi92\nVWQ0R05oMlJNTGppM3I4czhsZDhXbERwZVo4Y0dJTzVxTThIWVEKIzc9Swi/GVlR\n9scWflNE750Eb6guzVUMWnVm71BWD2pXKGNTfWClaax8lfmI6Z1KBTXxuyWsLCPI\nsUJrc6cPV/N/8bWhxBuBHU/Cig9XHGgUXM8AQ0VJMRK+UCnuOKU=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 7,
       "pos": 34,
       "commitment": "ddc31dd4678cf4c2ef158104479af7ac9031c00338ca161ba1dcb362f217b751",
       "step": "drip-3",
-      "deadline": "2026-12-05T17:56:08.000Z",
-      "round": 34563334,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDM0NTYzMzM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKcmpMeE9RSzJBcnE2MlRSM1g2U3BZQ01Fc1ZyNFQ3NEJDanRIVEMz\nRGZiQ0xHbTk0cTJoZlh2S1BEbVVpdHhmVgpDWExjQmhIQlZjWlBSK1FwS21icW5W\nbHp6YzZET1BwOWRPMndjVTlsOHhnKzhmZlhwS2pCaVlMazU5WjVLL2ZnCmxXTHdK\nUVIxV3AyeGtMT3cxT0ZaQXg3UGQvZ3hZbmN2Z09aMVU3YjZJV2sKLS0tIEI2TVFv\nSEgyMVZxR09mY2s3RXhUR2dyV0NLV1lqeDV2V3hwbkwyTitVWEEKJhEUzltl+UB9\nPk9CN0VZ+xmV13Pf4fqHQBsYLVTy2zIAob1MaIhUg3lmntoYvTG+NDRphs89y2L0\npY5W2gGA82JvSfi1zJ58AUE4KmsbmiRIYjpuhRG+uc2ul2nXPao=\n-----END AGE ENCRYPTED FILE-----\n"
+      "deadline": "2026-11-12T05:00:00.000Z",
+      "round": 33885412,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODg1NDEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKcXV1RmtlcDV2bFozeTNsMFdYN0VWaTk0UG9sUi9lSGFON2RvZGFM\nRXFUZ1lRQk1kRVh3bWFGUG5VQ3VyUHFjcQpERVFNSE91bzhnZm9jZnM5UStvTk1w\nZDFHYUVmQ050U0VVMXo4eW1SK2EzbzF4U2l4NWpyNkRoVWt5WWxBZ1hyCm5ESFR4\nZ3M0cEpjZUtMQVZEWmJIL1VFanBadENySC8ralVyRnVBc2FPdVUKLS0tIGQrSkJz\nWVRDTm12SFlRUUFKeFl6V2d6TTFGNk9CWDFmMHNnNEFXYUNNVWMKI9iKTeQlszQA\nHq0xqtlwJcn2U/LhEoBaCsFlDyoH5cRzCssso31Lsneie3sT25BFIA7SiwRBYB1e\nl7UCgeQw00D23vzwB/7KOYhbNOQsTD5bJc8xUl/eVOrMKL6K5/Q=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 8,
       "pos": 31,
       "commitment": "28e592eb078980d52340ad716781fac5d378d0f5de1c50b7cd05a2e0a643113f",
-      "step": "final",
-      "deadline": "2026-12-19T17:56:08.000Z",
-      "round": 34966534,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDM0OTY2NTM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKalpIWG1SQm5NMlQ5NVI3Z1hIVFpnU0ZRc2w5L3JCUzRzVHZrT2RJ\naWdhL0NmS3pBSjNUZjJsWUhPbGc1Y3dudQpGa1pvU3NHVlEyaEJHU2tPMm9NdmlQ\nV0VoME9yd3hSUGxvaFh0clFPMnVQK2lLYTE0L1llL01SMCt5UVRxRzNyCjFoRXlO\nNGZPd3R3azNOV3pESlpTbkFuU0hpVWwwNUp1dDljZU1PU2NFbW8KLS0tIEU3Wm1m\nT2FJdXZZT0FQNE05N0RaNkdKQ1lGekJXUzFIMnN1cGxMU3c5WEUK1vEp4IqCbqZF\no0Ys1lpJaT9VVk2okMJ/GARH84hw2X22OQ42r2TF/YsTtGEWMznWZO0817VvsHZ0\nrglJg4PNc4yblMOiEBJxWBZ59MNzn9VHRb14SQh9Smo3KmGS5rU=\n-----END AGE ENCRYPTED FILE-----\n"
+      "step": "drip-4",
+      "deadline": "2026-11-12T06:30:00.000Z",
+      "round": 33887212,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODg3MjEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKZ3ZXYW5Ic2NhcWxseFQwVzg0R2FhamhRREkvcngwU3dxMnkzSURY\nZDBTMmprNVFXaE50Z0JXQ2xzelkxTjhnVgpCN1lFTTBHbDM2QjNoN1hTcktFMlZ3\ndHJqK1B2VHpZSDN3ajM2UG5mVHF0TVI1UXd5UFB3cGRTazQrblFoeU9vCm1mbDM5\nSDVnbVYrQ2NsM0tRZnB1YUkwTngvSGNCdEVzS2dIbms1UkRNMncKLS0tIDZFa1Js\nb2tlZlF0VThkU3NFUlliN2Uwb055S2dHV213dGlDNkEwaE5LMzQKU3yCsrjTBlfE\nDLF4vmRjCZziuWtJYnd9P4VfSw3xZFRVkmOIjq8j5pCAdD5cI1OKEJ4/xSTKnerF\nSxfX26Z50zraZ+ZaPsQRGXXla+zv8DWooT/knzfMEY1qFJXh/pc=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 9,
       "pos": 14,
       "commitment": "899c98b36a620f51d7c05118d4fa48ac126085a7de983e9aa6d64eb32679881d",
-      "step": "final",
-      "deadline": "2026-12-19T17:56:08.000Z",
-      "round": 34966534,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDM0OTY2NTM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKajFQem53S21tSWYzWU40WU5rSFRTbWpEZHpZUTVCUHdTaHVqWlNw\nM3RMcWk4eVNKZzlhSHFQUTA4SkFkeVJtNgpDQ0ZNM1hwbVhNU3UzNFZCRktPeGEr\na0pRUUxQQ21nNWp6Y1d1QzlBbTJwNVRKNW5OcTFzUHo5czdHb1JTVUhjCkppV1g3\nemhwZVZxdWh4RHg5REpOR3FWeERLL29mMzhQdE51elhRUmpxUjQKLS0tIHN0Y05N\nSktvYUhlZXJRdUZLTFp4cmJXMmZJaU0rVVIxTFN2WUdjbkV0bEEKqNcQr2BL6t9Y\n4FMg79XaY6Y81MQXcFvxSGFhqZkCYlzvEUXnx/6DMG3B2MH33AlUqXWFsxnRQjcM\nWZysTZVOAWiifCd31rmVWFzFA/MFRXnaFozAgOl9lL90Nkl6Itw=\n-----END AGE ENCRYPTED FILE-----\n"
+      "step": "drip-5",
+      "deadline": "2026-11-12T08:00:00.000Z",
+      "round": 33889012,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODg5MDEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKaU1rSkdXMFhvcWtQdjlEamgxVzV6U01ZdCs2T2loRk1jaWU2MlJH\nKzJMZTJ5OHNTcWpVU2JBenZpVEN4MmZPOApEK0xHcjMwK3ZoSVR4TGFtbG9WVGo3\nU3VQaXFyRDRVWEJGY1RsYzhmOUVsV0FycjZCZW85cWJOMW9IOWJraDJYCmdlazFH\nMHdsWmduRzVCYmd0REEyU2pHanJsdDU0b0ZXT1RJbk5ZZFBpMkEKLS0tIHVoUWF2\nMlZaL1h6bGl3YklmVGZWV1BnS3ZlT3paMXBwTUsxTVpoYVR0UkUKwJiPUu1BmlME\nbWsEacnAdv7zlfqpyTSJ4EwbEiPlgF6WbLt7bGpUJ3GUWha3Br08uWt7apXw8j8/\nrkkRk91lqDd4nqZV8dp9vOOZybrl4Ykf7K43tBex7eOkv5ZhKqA=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 10,
       "pos": 39,
       "commitment": "b604c192fe0177814592e1a55986fd0d76ac54700ba2b594d7caf2ef1982bdaa",
       "step": "final",
-      "deadline": "2026-12-19T17:56:08.000Z",
-      "round": 34966534,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDM0OTY2NTM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKbE0wWWVDd3NuZ0JIQldiUTdtTWxUOUFXQnFWNmRMdEVqcVh2NWxn\nM2RBU05YZnI3bXovelBhRlVjWnpZcUVwcwpEb0F6czVydGxtQnFxcW0yb29YWW5B\nYThNNmltaE9xWHdvSnU0V2R0elMvdzFJWlhhQnIyWWx0SzkrTjM2bEtGCmhxN3hn\nOTUzREtQVXZWQk51L1RjeG9qcElGNDJZczZYNjRtakdUQjRkRnMKLS0tIHJSWDVa\nK2VmdThvOGpDSnpmc1ZNVlJ2V0VlWG92L2VzWkhCdlhMYkhmVDAKDWoPOkvEN1yw\nQhuKYmDjA3YsDcmrIvH+c6G0P/EZXfo8Okvvtb6Lzfks6L9FpW80RxAsNHzAoiQR\nRLvnlJyTGUNn1l+V0uJtIbZoiRJfXkc40qenQXr2sLtnCKtYkGs=\n-----END AGE ENCRYPTED FILE-----\n"
+      "deadline": "2026-11-12T10:00:00.000Z",
+      "round": 33891412,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODkxNDEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKalNBdEJoTG5wMjVNcG00Z2JJM2w2N2tlNFJyVnlUVlE5TkhSOUR2\nOWhpVzNVbjJWcTg4MWQ2WmlmSG5sZkpZeApDR1paaHFzeWNNRWVRK1FyQ2RXYm9F\nVzB2YmZpWm12V3hENFFTZGMyVlVvcVRIZ1dkc2RESjdLTVliUFBJaWg2ClJsa1g3\nM2JOYzUxamdudUFKK2dIWml1c1FBanAwcG1GUDhEazhzeENIRUkKLS0tIDM1OVFC\nMGlxM3dlSmF1MVFmT1pvTVNWVVZrT0w1Nno5UVp3Q0pjWlVYSmsKH4BhouxiqV2f\nengQq+/HGza6mDK+m+QZ3UYH7ZxdMBoF4qDcKhS+qziOzzNMlbtqoAkj7KxqIvx6\nT3BC68Xm6cqdJN7eOlFJOvN262jGHV6FY/TXd7FG8KCJHU6wsBU=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 11,
       "pos": 23,
       "commitment": "f3c973f28b35b1d8c6643036fb55083e0ca8e3e04098b01008467b7bb0644596",
       "step": "final",
-      "deadline": "2026-12-19T17:56:08.000Z",
-      "round": 34966534,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDM0OTY2NTM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKb3gwdWtkdTlJOGlINnIwNTVkQ2dWNmFxaDdTa3Vvdk4xM2VNTWgz\nc3QyZzhxOWtNSi9pbHMyR29kT0ZJNE9IagpFRENkVFNuOWJtdzlya1NxWlU3YTcy\nSkV4RytlMGk4RFdRWDYwYytOS0hWNk5qcnlSZytkRmg4NXc3ZFBsVSt5CjB0K1hX\nL1I4QVpaSGtOSGRHYldlQ1BMV0REbmY4TmRJUmFweWFCWHdQc0kKLS0tIDZIbWFL\nLytPM2MvVUNReWRBMU1kTGhxczJvODRGeFRnanVhZ2YzZkt2WjgK8FfAtxrE/I7v\nyKgJtbYI5sqNRCdEBR59XumbFyU4XnGyCxwq8iGDBgS79aQ9ImRdOaxmsT/m0ygo\nviBmS3p0wMydido8py6dJQPB9i2q2tyJGxEGQhSAKSpNx5BcVy8=\n-----END AGE ENCRYPTED FILE-----\n"
+      "deadline": "2026-11-12T10:00:00.000Z",
+      "round": 33891412,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODkxNDEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKbzZiQ2hPN3o3cG5mMmVzdjFwVFNod0RKWC8wUFFoY3A3a1R1VUpy\nM213bm1Zcm1xei9OU0Uva0ZXc2R2Nm0vWgpFd3Q4SlBHNEhpaUhDS01aZFRCWWdD\nMTJuUFY3NHgwUjQrSUFSK09uQkNRcU9hQlRtVkFaMFIzWktZNXhiZzZ6Ci9wOTln\nQWlPeGpJS1FQelUvWm5QZUllTGZCeVUySFBWV0t1Ri82QUdGd3MKLS0tIDJ6L0Qy\nQjNsdXFIY0JCanVVY0lxNktTR05JTzlKY0NuRGh5SEI5VFM4dU0KWPj3c+IRk2ef\nPHBaz/IRDM9BWWX7CZXyLquz86i+HrbpagHBKyrZV8ysVzzVHXAiT0oZEHcBbN9A\nFLEMRcwKJwArY/eu7TuWs5fCgjMPSAT5P7uHdhuqwK+WtuN4x0U=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 12,
       "pos": 37,
       "commitment": "74c7bd8e16bfb06827997625fb107e9af6eedd38f1852df226ca998a9ff88db0",
       "step": "final",
-      "deadline": "2026-12-19T17:56:08.000Z",
-      "round": 34966534,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDM0OTY2NTM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKbHFKaEVKVlRDVTQyd2VEL0NNSllyZDVMbEV1aDZWWUxqOHhWYXJX\nc3dpSjRjTkZVQTExQTA5N1FrelNlbDBaVQpDZnNxSkVKT2RoRzVhRjFYZHFzbTRB\ncUhjYnhnMnkwMXdCM3VOMFBHakxoeGovdFVtRVVoYzVPVGwvUGdkZURzCllZZzZj\nV29LUFRrZ2pkYlRaWS9jU3pVb2FnckxMKzltUnlTcm9GMFczbjQKLS0tIEp2S2xW\nMFBteERNNjlLVzkwZVJDV2pNOVFPRnJMZlNPb0hnemZHNUJDYkEKqJMzXnzyO65v\nFOojYi9CPXNO+IVlpjZc8kbBszksCikm9p8hM/+6YhHqw5W0ft5BsOpZfcQKDirf\niGhDjt1aDWDF1H0g+7a4mvLhYfA/rCsawjXNlkKerWXfi97hJxM=\n-----END AGE ENCRYPTED FILE-----\n"
+      "deadline": "2026-11-12T10:00:00.000Z",
+      "round": 33891412,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODkxNDEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKZ0pTTTRqa3dCbkh2N1Q0VnFHejZubUh2Q2t5c3kzdG1Mb1NJMy8y\nSEw4d21Pc3RRTHVBeEZHN2NMWEtVdEVKWApFT2F6aWphLzZzZjhCbDZkZk5wUG9a\nSENQMWpBWVoxdEJUQ0FsS1RVdHRxY2haaVVRQ1R5UWFHMnVaQTdGN0NsCll4VzdZ\nelAyS2FmT29GNS91QmNCNUhDdSsvZlNtTnBWVzlyMUxaVldaSk0KLS0tIEQ1NjRJ\nYW1qdVNlQkRLbEM3VWNPWlkrRi9LMmttTWEwdzZqTSs5MHlqNjAKryaua0tZX1dg\n4Pil82r4FIX64REvt0RonWcKGyWIQ8mAnAMycPL2sY+JgLWYW4zxYGY/H90eg4PU\nn3CIYro5Byqx9ueTfYeCJmRhRr9/t40vDuYxKb8UqZ/OQqeJZ+o=\n-----END AGE ENCRYPTED FILE-----\n"
     },
     {
       "k": 13,
       "pos": 0,
       "commitment": "803fd09397cae298abe1e11d8d24d696fcac8e8f21e6dd535e9999485e1a0d5d",
       "step": "final",
-      "deadline": "2026-12-19T17:56:08.000Z",
-      "round": 34966534,
-      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDM0OTY2NTM0IDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKbzBhWXVVZTJMNFNxekxNWW51M2wrT0d3cGtxSzBZL2NUcnk4UTFM\nOTNiSFQrUUxob3YrTkU0UndYb0FnVi9xegpFNUZxeGU5UFQxTW5nakNvWExaeXVJ\nSHBmWmZVbWJUSnpsa2JuUGp2V3pGUms2WWNmU1ZLcWpvRTZFamR0Zys4CnRHSTNy\nano5Nmwyc0Vrc3VmMDVFQU9MYy9Pc0ViaUI5b3ZZTmsyYm96UHcKLS0tIE9TSTlz\neGhJaUV6QTJrOVFEaXN0bUR5VndHclVZRWE4bDNodktsUHgxYnMKE1XPIezEWth6\nmQ5PcbPbH7JfTaSyLXjGjIt9xDlAofwwFNQaOrFJG3dyXMNLB2kPx14OZzZuCh21\nHKwPUMbw4kvX1LSdRaUVKHm6a3WTJpJtLv0u+mKycuGVxHqGQA==\n-----END AGE ENCRYPTED FILE-----\n"
+      "deadline": "2026-11-12T10:00:00.000Z",
+      "round": 33891412,
+      "ciphertext": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHRsb2NrIDMzODkxNDEyIDUyZGI5YmE3\nMGUwY2MwZjZlYWY3ODAzZGQwNzQ0N2ExZjU0Nzc3MzVmZDNmNjYxNzkyYmE5NDYw\nMGM4NGU5NzEKdHJHQW5LekdOM0hHU05xTlNvSHVLK3d3UVI5N3hHSTlidGFnZ3Ew\nbXBuSWE4SVBwbmlHWTJENlREMm1WckhOTQpEaW9vRHR3Y1pXYWRrMEplWHJMb2JO\nME9ycU1VMDg3RUl5RlQ4SXF6Z0xVU2h6aWg5WnNvQzBYaHFMb1lERzNWClJUcFpE\nZU52VmFRUDhoL1FxWG5ETHZ0NjVVcnpXWVpxL2pPd0NmU1N5T3MKLS0tIEtMNmpp\nVWtvQWdlWHlPcWN2RzU2S3dHVkxDOWNNcTZqWjBaZExONnJXc2MKP6ZID0vSBw6X\nAva6JGoBelWjy4T2aiOe6bjmCrXyF4qLc4qx/bJj5ZLy4qRUX6EGoKT7mxY4mE5Y\ne1Vmw4V6rTkE85/epuDGx7d7xz8JuWnjgK+5FLheCp3UF3VZng==\n-----END AGE ENCRYPTED FILE-----\n"
     }
   ]
 }

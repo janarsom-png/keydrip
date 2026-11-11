@@ -7,16 +7,42 @@
       "ref": "glyph-0",
       "pos": 22,
       "char": "6",
-      "label": "Sustained $50k market cap",
+      "label": "Sustained $30k market cap",
       "revealedBy": "timelock",
       "verified": true,
-      "title": "Sustained $50k market cap",
+      "title": "Sustained $30k market cap",
       "id": "reveal-glyph-0",
-      "ts": "2026-11-11T02:00:00.000Z",
-      "text": "🔓 A glyph just dripped.\n\n$THIEF vault key is now 13 glyphs from cracked (~74.3 bits left).\n\nVerify it yourself — every reveal is commitment-checked.\nhttps://thethief.fun"
+      "ts": "2026-11-11T18:28:42.032Z",
+      "text": "🔓 A glyph just dripped.\n\n$THIEF vault key is now 11 glyphs from cracked (~62.6 bits left).\n\nVerify it yourself — every reveal is commitment-checked.\nhttps://thethief.fun"
+    },
+    {
+      "type": "reveal",
+      "ref": "glyph-1",
+      "pos": 29,
+      "char": "X",
+      "label": "Sustained $75k market cap",
+      "revealedBy": "timelock",
+      "verified": true,
+      "title": "Sustained $75k market cap",
+      "id": "reveal-glyph-1",
+      "ts": "2026-11-11T18:28:42.032Z",
+      "text": "🔓 A glyph just dripped.\n\n$THIEF vault key is now 11 glyphs from cracked (~62.6 bits left).\n\nVerify it yourself — every reveal is commitment-checked.\nhttps://thethief.fun"
+    },
+    {
+      "type": "reveal",
+      "ref": "glyph-2",
+      "pos": 30,
+      "char": "c",
+      "label": "Sustained $150k market cap",
+      "revealedBy": "timelock",
+      "verified": true,
+      "title": "Sustained $150k market cap",
+      "id": "reveal-glyph-2",
+      "ts": "2026-11-11T18:28:42.032Z",
+      "text": "🔓 A glyph just dripped.\n\n$THIEF vault key is now 11 glyphs from cracked (~62.6 bits left).\n\nVerify it yourself — every reveal is commitment-checked.\nhttps://thethief.fun"
     }
   ],
-  "updatedAt": "2026-11-11T02:00:00.000Z",
+  "updatedAt": "2026-11-11T18:35:37.970Z",
   "game": {
     "status": "live",
     "winner": null,

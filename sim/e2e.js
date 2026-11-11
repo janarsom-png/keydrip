@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /*
  * The Vault Thief end-to-end simulation (offline, mocked market cap + time).
- * Flow: launch -> milestones (14->9 hidden) -> endgame drip (9->6) -> sweep detected -> final full reveal.
+ * 24-HOUR HEIST. Flow: launch -> milestones pull glyphs early (14->9) -> time-lock drip (9->4) -> sweep -> final full reveal.
+ * Times are derived from the time-locks' launch, so it is independent of wall-clock.
  * Drives the REAL bot tick (bot/run.js) against the bundled TEST wallet, injecting milestone triggers and a
  * mock winner. Backs up and restores every file it touches, so it leaves the repo exactly as it found it.
  * The real drand tlock round is proven separately (see report); this sim mocks time to exercise the game logic.
@@ -47,45 +48,55 @@ const check = (name, cond, got) => { const ok = !!cond; results.push(`${ok ? 'PA
     try { fs.unlinkSync(p('site/feed.json')); } catch {}
     fs.rmSync(p('drafts'), { recursive: true, force: true });
 
-    // T0 launch — nothing due (before k0 deadline)
-    let r = tick('2026-11-09T18:00:00Z');
-    check('T0 launch: 14 hidden', r.puzzle.hiddenCount === 14, r.puzzle.hiddenCount);
+    // Launch time comes from the time-locks file; all ticks are launch + offset hours.
+    const tl = JSON.parse(fs.readFileSync(p('site/timelocks.json'), 'utf8'));
+    const L = Date.parse(tl.launch);
+    const at = h => new Date(L + h * 36e5).toISOString();
+
+    // T0 — 1h in, before the first deadline (12.5h) and no milestones: all 14 still hidden
+    let r = tick(at(1));
+    check('T0 (+1h): 14 hidden', r.puzzle.hiddenCount === 14, r.puzzle.hiddenCount);
     check('T0 status live', r.game.status === 'live');
 
-    // T1 milestone mc-50k -> 13 hidden
-    injectTriggers(['mc-50k'], '2026-11-09T19:00:00Z');
-    r = tick('2026-11-09T19:00:00Z');
-    check('T1 mc-50k: 13 hidden', r.puzzle.hiddenCount === 13, r.puzzle.hiddenCount);
+    // T1 — milestone mc-30k pulls glyph k0 early (well before its +2.5h time-lock) -> 13 hidden
+    injectTriggers(['mc-30k'], at(1.5));
+    r = tick(at(1.5));
+    check('T1 mc-30k early: 13 hidden', r.puzzle.hiddenCount === 13, r.puzzle.hiddenCount);
+    check('T1 glyph k0 revealedBy milestone', (r.glyphs.find(g => g.k === 0) || {}).revealedBy === 'milestone', (r.glyphs.find(g => g.k === 0) || {}).revealedBy);
 
-    // T2 mc-100k + mc-250k -> 11 hidden
-    injectTriggers(['mc-100k', 'mc-250k'], '2026-11-10T00:00:00Z');
-    r = tick('2026-11-10T00:00:00Z');
-    check('T2 mc-100k+250k: 11 hidden', r.puzzle.hiddenCount === 11, r.puzzle.hiddenCount);
+    // T2 — mc-75k + mc-150k pull two more early -> 11 hidden
+    injectTriggers(['mc-75k', 'mc-150k'], at(2));
+    r = tick(at(2));
+    check('T2 mc-75k+150k: 11 hidden', r.puzzle.hiddenCount === 11, r.puzzle.hiddenCount);
 
-    // T3 mc-500k + mc-1m -> 9 hidden (milestones bring it to 9)
-    injectTriggers(['mc-500k', 'mc-1m'], '2026-11-10T06:00:00Z');
-    r = tick('2026-11-10T06:00:00Z');
-    check('T3 all milestones: 9 hidden', r.puzzle.hiddenCount === 9, r.puzzle.hiddenCount);
+    // T3 — mc-300k + mc-600k -> milestones have pulled it down to 9 hidden
+    injectTriggers(['mc-300k', 'mc-600k'], at(3));
+    r = tick(at(3));
+    check('T3 milestones -> 9 hidden', r.puzzle.hiddenCount === 9, r.puzzle.hiddenCount);
 
-    // T4 endgame drip-1 deadline passed (time-lock, no milestone) -> 8
-    r = tick('2026-11-21T18:00:00Z');
-    check('T4 drip-1 deadline: 8 hidden', r.puzzle.hiddenCount === 8, r.puzzle.hiddenCount);
+    // T4 — time-lock drip-1 deadline (+15h) passes, no milestone -> 8 hidden
+    r = tick(at(15));
+    check('T4 (+15h) drip-1 time-lock: 8 hidden', r.puzzle.hiddenCount === 8, r.puzzle.hiddenCount);
 
-    // T5 drip-2 -> 7
-    r = tick('2026-11-28T18:00:00Z');
-    check('T5 drip-2: 7 hidden', r.puzzle.hiddenCount === 7, r.puzzle.hiddenCount);
+    // T5 — drip-2 (+17h) -> 7 hidden
+    r = tick(at(17));
+    check('T5 (+17h) drip-2: 7 hidden', r.puzzle.hiddenCount === 7, r.puzzle.hiddenCount);
 
-    // T6 drip-3 -> 6 (endgame cracking phase)
-    r = tick('2026-12-05T18:00:00Z');
-    check('T6 drip-3: 6 hidden', r.puzzle.hiddenCount === 6, r.puzzle.hiddenCount);
+    // T6 — by +22h (drip-3/4/5 all passed) only 4 hidden remain (trivially crackable)
+    r = tick(at(22));
+    check('T6 (+22h) endgame: 4 hidden', r.puzzle.hiddenCount === 4, r.puzzle.hiddenCount);
 
-    // T7 sweep detected -> final reveal
+    // T7 — sweep detected at +23h -> final full reveal (also what +24h time-lock guarantees)
     fs.writeFileSync('/tmp/sim-win.json', JSON.stringify({ tx: '5xSIMsweep1111111111111111111111111111111111111111111111111111111111111111111111111111', outLamports: 14230000000, blockTime: 1765382400 }));
-    r = tick('2026-12-10T12:00:00Z', ['--mock-winner', '/tmp/sim-win.json']);
+    r = tick(at(23), ['--mock-winner', '/tmp/sim-win.json']);
     check('T7 sweep: 0 hidden (final)', r.puzzle.hiddenCount === 0, r.puzzle.hiddenCount);
     check('T7 status won', r.game.status === 'won', r.game.status);
     check('T7 winner tx recorded', r.game.winner && r.game.winner.tx, r.game.winner && r.game.winner.tx);
     check('T7 final=true', r.final === true, r.final);
+
+    // sanity: whole game fit inside 24h (final deadline is exactly +24h)
+    const finalStep = tl.scheduleSteps.find(s => s.id === 'final');
+    check('max game length <= 24h', (Date.parse(finalStep.deadline) - L) / 36e5 <= 24.0001, ((Date.parse(finalStep.deadline) - L) / 36e5).toFixed(2) + 'h');
 
     // verify final seed matches committed address derivation
     const commit = JSON.parse(fs.readFileSync(p('public-commitment.json'), 'utf8'));

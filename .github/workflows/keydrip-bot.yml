@@ -54,9 +54,40 @@ jobs:
           git add site/reveals.json site/feed.json reveal/milestones-state.json bot/state drafts || true
           git commit -m "bot tick $(date -u +%FT%TZ)" || echo "nothing to commit"
           git push || echo "nothing to push"
+      - name: Assemble Pages output (pre-launch gate)
+        env:
+          PREVIEW_SLUG: ${{ secrets.PREVIEW_SLUG }}
+          LAUNCHED: ${{ vars.LAUNCHED }}
+        run: |
+          rm -rf public && mkdir -p public
+          cp site/CNAME public/CNAME 2>/dev/null || true   # custom domain, applies site-wide
+          if [ "$LAUNCHED" = "true" ]; then
+            echo "LAUNCHED=true -> publishing the FULL GAME at the site root."
+            cp -r site/. public/
+            printf 'User-agent: *\nAllow: /\n' > public/robots.txt
+          else
+            echo "Pre-launch -> publishing the TEASER at root; full game behind a secret preview slug."
+            cp -r teaser/. public/
+            # Teaser is indexable; the preview area is disallowed by PREFIX only, so the
+            # unguessable slug itself never appears in the public robots.txt.
+            printf 'User-agent: *\nAllow: /\nDisallow: /p/\n' > public/robots.txt
+            if [ -n "$PREVIEW_SLUG" ]; then
+              mkdir -p "public/p/$PREVIEW_SLUG"
+              cp -r site/. "public/p/$PREVIEW_SLUG/"
+              rm -f "public/p/$PREVIEW_SLUG/CNAME"   # CNAME lives only at the root
+              node -e '
+                const fs=require("fs");const f=process.argv[1];let h=fs.readFileSync(f,"utf8");
+                if(!/name="robots"/i.test(h)) h=h.replace(/<head>/i,"<head>\n<meta name=\"robots\" content=\"noindex, nofollow\">");
+                fs.writeFileSync(f,h);
+              ' "public/p/$PREVIEW_SLUG/index.html"
+              echo "::notice::Preview published under /p/<secret-slug>/ (noindex)."
+            else
+              echo "::warning::PREVIEW_SLUG not set - no private preview published."
+            fi
+          fi
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: public
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4

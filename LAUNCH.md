@@ -10,7 +10,24 @@ the fee-split and generate steps are the only ones that touch a wallet, and both
 - [ ] Confirm the seed base58 is **44 chars** (the generator loops until it is).
 
 ## 2. Time-lock every hidden glyph (guaranteed ending)
-- [ ] Set the reveal schedule in `reveal/schedule.json` (copy from `reveal/schedule.example.json`).
+- [ ] Set the reveal schedule in `reveal/schedule.json` (copy from `reveal/schedule.example.json`). The default is a **24-hour heist**: `maxGameHours: 24`, `startHidden: 14`. Every glyph has a hard drand time-lock, and the first five steps can also be pulled **early** by market-cap milestones. Hour → hidden curve:
+
+      | by hour | step | hidden after |
+      |---|---|---|
+      | 0 | launch | 14 |
+      | 2.5 | `mc-30k` ($30k mcap) | 13 |
+      | 5 | `mc-75k` ($75k) | 12 |
+      | 7.5 | `mc-150k` ($150k) | 11 |
+      | 10 | `mc-300k` ($300k) | 10 |
+      | 12.5 | `mc-600k` ($600k) | 9 |
+      | 15 | `drip-1` | 8 |
+      | 17 | `drip-2` | 7 |
+      | 19 | `drip-3` | 6 |
+      | 20.5 | `drip-4` | 5 |
+      | 22 | `drip-5` | 4 |
+      | 24 | `final` (incl. position 0) | 0 |
+
+      Milestones confirm only when the mcap **holds** above the threshold on **two independent price feeds** for ~10 minutes (`milestoneRule`). A milestone only pulls a glyph *earlier*; the time-lock is the backstop.
 - [ ] `node launch/timelock.js` — encrypts each hidden glyph to its step **deadline** via drand and writes
       `site/timelocks.json`. These ciphertexts are public and no one (including you) can open one early.
 - [ ] Sanity check: `node reveal/verify-reveals.js` and `node reveal/tlock-open.js` (nothing due yet should open nothing).
@@ -38,7 +55,31 @@ the fee-split and generate steps are the only ones that touch a wallet, and both
 - [ ] Set `site/config.js` (mint, RPC endpoints, links, `feeSplitProofTx`) and `bot/config.json` (copy from
       `bot/config.example.json`).
 
-## 6. Go live
+## 6. Pre-launch gate & flipping the switch
+
+Until you launch, the public site must **not** show the game. The GitHub Actions workflow handles this automatically using one repo variable and one secret — no code change needed to go live.
+
+**How it works (`.github/workflows/keydrip-bot.yml`, "Assemble Pages output" step):**
+- While the repo **variable** `LAUNCHED` is anything other than `true` (the default), the workflow deploys the **teaser** (`teaser/`) to the site root (`https://thethief.fun`). The teaser shows the locked-vault animation, "THE VAULT IS BEING LOCKED / Sealing the safe… / The heist opens soon." and the X link — **no countdown, no prize numbers, no hype**. It is allowed to be indexed by search engines.
+- For your own private preview, the workflow publishes the **full game** at `https://thethief.fun/p/<PREVIEW_SLUG>/`, where `PREVIEW_SLUG` is a random, unguessable value stored **only** as an Actions **secret** (never committed). The preview page carries `<meta name="robots" content="noindex, nofollow">` and the deployed `robots.txt` disallows the `/p/` prefix, so it stays out of search results. The slug prefix in `robots.txt` never reveals the secret slug itself.
+
+**One-time setup (already done for this repo):**
+```sh
+# random, unguessable preview slug — stored ONLY as a secret, never in git
+gh secret set PREVIEW_SLUG --repo <owner>/<repo> --body "v$(openssl rand -hex 14)"
+# keep the game hidden until launch
+gh variable set LAUNCHED --repo <owner>/<repo> --body false
+```
+Your private preview URL is `https://thethief.fun/p/<the-slug-you-set>/`. Keep it to yourself; anyone with the full URL can view the full game.
+
+**To flip the switch and go live (after steps 1–5 and the token is created):**
+```sh
+gh variable set LAUNCHED --repo <owner>/<repo> --body true
+gh workflow run "The Vault Thief bot" --repo <owner>/<repo>   # or just wait for the next */10 tick
+```
+That single change makes the next deploy publish the **full game at the site root** and open `robots.txt` to full indexing. To pull it back to teaser-only, set `LAUNCHED` to `false` again. (The same `teaser/` page is what everyone sees pre-launch; edit it there if you want different copy.)
+
+## 7. Go live
 - [ ] Run the bot once to seed the site: `node bot/run.js --mint <MINT>` (or let the `*/10` Actions schedule do it).
       It writes `site/reveals.json`, `site/feed.json`, X drafts under `drafts/`, and commits + deploys Pages.
 - [ ] **Delete the seed** from any online machine. Keep `secrets/` only where you run milestone reveals (if at all);

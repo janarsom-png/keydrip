@@ -69,12 +69,34 @@ The full cost-to-crack table (GPU times and rough $ vs. pot size) is in **`crack
 
 | hidden | ~$ to crack | note |
 |---|---|---|
-| 8 | ~$70 | few hours on rented GPUs |
 | 9 | ~$4,000 | a few days on 100 GPUs |
-| 10 | ~$240k | effectively safe for now |
-| 6 or fewer | <$1 | seconds |
+| 8 | ~$70 | few hours on rented GPUs |
+| 7 | ~$5 | ~1–2 h on one GPU |
+| 6 | <$1 | minutes on one GPU |
+| 4–5 | pennies | seconds–minutes on an ordinary laptop |
 
-**Default schedule (`reveal/schedule.example.json`):** start **14 hidden**; five market-cap milestones bring it 14 → 9; then a slow endgame drip 9 → 8 → 7 → 6 (one glyph every ~7 days); a final step reveals the rest. So the cracking phase (8–9 hidden) lasts weeks while the pot keeps climbing, and because every step is time-locked the vault always opens. The schedule is fully configurable: `startHidden`, per-step `milestone.mcapUsd`, `deadline` (`+1d`, `+36h`, or absolute ISO), and `reveal` (glyphs per step; the `reveal` values must sum to `startHidden`). After editing, re-run `launch/timelock.js` to re-lock to the new deadlines.
+By design the 24-hour clock walks the vault down this curve: for the first ~12 h it sits at 9–14 hidden (effectively uncrackable) while the pot climbs, then the endgame drip takes it to 4–5 hidden in the final hours so there is **always** a winnable window before the 24 h deadline.
+
+**Default schedule — a 24-hour heist (`reveal/schedule.example.json`):** the whole game is capped at **24 hours** from launch. Start **14 hidden**; five market-cap milestones can pull the first five glyphs early (14 → 9), but every glyph also has a hard **drand time-lock** backstop so the drip is guaranteed even if nothing trades. Early glyphs are ~2.5 h apart; the drip gets denser in the last ~6 h, so by ~hour 22 only ~4 tumblers remain (trivially crackable on an ordinary PC) and at **hour 24** the final tumblers — including **position 0, always revealed last** — open and the whole combination is out.
+
+Hour → hidden-glyph curve (time-lock backstops; a milestone only pulls a glyph *earlier*, never later):
+
+| by hour | step | hidden after |
+|---|---|---|
+| 0 | launch | 14 |
+| 2.5 | `mc-30k` (≥ $30k mcap) | 13 |
+| 5 | `mc-75k` (≥ $75k) | 12 |
+| 7.5 | `mc-150k` (≥ $150k) | 11 |
+| 10 | `mc-300k` (≥ $300k) | 10 |
+| 12.5 | `mc-600k` (≥ $600k) | 9 |
+| 15 | `drip-1` | 8 |
+| 17 | `drip-2` | 7 |
+| 19 | `drip-3` | 6 |
+| 20.5 | `drip-4` | 5 |
+| 22 | `drip-5` | 4 |
+| 24 | `final` (reveals 4, incl. position 0) | 0 |
+
+Milestones are confirmed only when the market cap **holds** above the threshold on **two independent price feeds** for about ten minutes (`milestoneRule` in the schedule), so a one-tick wick can't trip them. The schedule is fully configurable: `maxGameHours`, `startHidden`, `milestoneRule`, per-step `milestone.mcapUsd`, `deadline` (`+2.5h`, `+90m`, `+1d`, or absolute ISO), and `reveal` (glyphs per step; the `reveal` values must sum to `startHidden`). After editing, re-run `launch/timelock.js` to re-lock to the new deadlines.
 
 ## Public cracking tool
 

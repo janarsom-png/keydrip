@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Vault Thief — $THIEF · crack the safe, sweep the vault</title>
-<meta name="description" content="A heist game on pump.fun. 100% of creator fees are locked inside a safe, and its combination is cracked one tumbler at a time. The first thief to crack it sweeps the vault. It's a game — the prize is the vault's own contents; no one is being stolen from.">
+<title>The Vault Thief — $THIEF · the 24-hour safe-cracking heist</title>
+<meta name="description" content="A 24-hour heist game on pump.fun. 100% of creator fees are locked inside a safe, and its combination is released one tumbler at a time. Within 24 hours the whole combination opens — the first thief to crack it sweeps the vault. It's a game — the prize is the vault's own contents; no one is being stolen from.">
 <meta property="og:title" content="The Vault Thief — $THIEF · crack the safe, sweep the vault">
-<meta property="og:description" content="The safe is being cracked, one tumbler at a time. First thief to the combination takes the vault.">
+<meta property="og:description" content="A 24-hour heist. The safe combination drips out one tumbler at a time; first thief to crack it takes the vault.">
 <meta property="og:image" content="assets/banner-header.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/logo-vault-keyhole-512.png">
@@ -39,9 +39,9 @@
       <span class="wb-note">The fee split is permanent, so creator fees keep arriving at this safe — it's a thieves' race now.</span>
     </div>
     <div class="hero-bg" aria-hidden="true"></div>
-    <p class="eyebrow">The safe is being cracked</p>
+    <p class="eyebrow">The 24-hour heist is on</p>
     <h1>Crack the safe.<br>Sweep the vault.</h1>
-    <p class="lede">Every creator fee of <b data-bind="ticker">$TICKER</b> is locked inside a safe, and its combination is slipping out one cracked tumbler at a time. The first thief to crack the whole combination sweeps the entire vault.</p>
+    <p class="lede">Every creator fee of <b data-bind="ticker">$TICKER</b> is locked inside a safe, and its combination slips out one tumbler at a time over <b>24 hours</b> — faster when the market cap jumps. The last tumblers open as the clock runs out, so the first thief to crack the whole combination sweeps the entire vault.</p>
 
     <div class="vault-stage" id="vaultStage" aria-hidden="true">
       <canvas class="fx-canvas" id="fxCanvas"></canvas>
@@ -157,11 +157,11 @@
     <ol class="how">
       <li>The token was launched on pump.fun with <b>100% of creator fees locked to the vault wallet</b> through pump.fun fee sharing. Every trade adds to the pot.</li>
       <li>The wallet's 32-byte seed is shown above in base58. Sealed glyphs are shown as <span class="dot">•</span>.</li>
-      <li>Each step reveals one more glyph — when the market cap holds above a milestone (checked on two independent price feeds for an hour) <b>or</b> when its time-lock deadline passes, whichever comes first.</li>
+      <li>Each step reveals one more glyph — when the market cap holds above a milestone (checked on two independent price feeds for about ten minutes) <b>or</b> when its time-lock deadline passes, whichever comes first.</li>
       <li>Reconstruct the seed, derive the keypair and check it matches the wallet address. Then you control the wallet and everything in it.</li>
       <li>Fees waiting in pump.fun's vault are pushed to the wallet by a permissionless "distribute" call that anyone can trigger. Future fees keep flowing to the same wallet, because the split is locked.</li>
       <li>Whoever moves the funds first wins. That's the whole game.</li>
-      <li>The endgame drips slowly (one glyph every ~7 days) so the cracking race has time to play out. Every glyph has a hard deadline, so the vault always opens eventually.</li>
+      <li>The whole heist runs <b>24 hours</b>. Early glyphs are ~2.5&nbsp;h apart; the drip gets denser in the final ~6&nbsp;h, so by the last hour only a handful of tumblers remain — crackable on an ordinary PC — and at the 24&nbsp;h mark the final tumblers (including the last one) open and the combination is complete. Every glyph has a hard time-lock deadline, so the vault always opens on schedule.</li>
     </ol>
   </section>
 

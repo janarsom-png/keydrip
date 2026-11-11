@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Vault Thief — the heist opens soon</title>
+<meta name="description" content="The Vault Thief ($THIEF) — a safe is being sealed. The heist opens soon.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="The Vault Thief — the heist opens soon">
+<meta property="og:description" content="Sealing the safe… The heist opens soon.">
+<meta name="theme-color" content="#0b0a08">
+<style>
+  :root { --gold:#D4AF37; --gold-l:#F5D76E; --ink:#0b0a08; --steel:#17150f; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; }
+  body {
+    background: radial-gradient(1200px 700px at 50% -10%, #1c1a14 0%, #0b0a08 60%, #060504 100%);
+    color:#efe8d6; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:6vh 20px; overflow:hidden;
+  }
+  .wrap { max-width:640px; display:flex; flex-direction:column; align-items:center; gap:22px; }
+  .vault { width:min(58vw,300px); height:auto; filter: drop-shadow(0 18px 50px rgba(0,0,0,.6)); }
+  .eyebrow { letter-spacing:.32em; text-transform:uppercase; font-size:.72rem; color:var(--gold); opacity:.85; margin:0; }
+  h1 { font-size: clamp(1.8rem, 6vw, 3.1rem); line-height:1.05; margin:.1em 0 0;
+       background:linear-gradient(180deg,var(--gold-l),var(--gold) 55%,#8A6E2F);
+       -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:800; }
+  .seal { font-size:1.05rem; color:#cbbf9f; margin:.2em 0 0; }
+  .soon { font-size:1.15rem; color:#efe8d6; margin:.2em 0 0; font-weight:600; }
+  .soon b { color:var(--gold-l); }
+  .x { margin-top:8px; display:inline-flex; align-items:center; gap:9px; text-decoration:none;
+       color:var(--ink); background:linear-gradient(180deg,var(--gold-l),var(--gold)); font-weight:700;
+       padding:11px 20px; border-radius:999px; box-shadow:0 6px 24px rgba(212,175,55,.25); }
+  .x:hover { filter:brightness(1.05); }
+  .foot { margin-top:14px; font-size:.75rem; color:#6f685a; }
+  /* sealing animation */
+  #dialRot { transform-origin:130px 130px; animation: seal 9s ease-in-out infinite; }
+  .bolt { transform-origin:130px 130px; animation: boltpulse 4.5s ease-in-out infinite; }
+  @keyframes seal { 0%{transform:rotate(0)} 45%{transform:rotate(190deg)} 55%{transform:rotate(190deg)} 100%{transform:rotate(368deg)} }
+  @keyframes boltpulse { 0%,100%{opacity:.55} 50%{opacity:1} }
+  .ring { animation: breathe 6s ease-in-out infinite; transform-origin:center; }
+  @keyframes breathe { 0%,100%{opacity:.25} 50%{opacity:.6} }
+  @media (prefers-reduced-motion: reduce) { #dialRot,.bolt,.ring{animation:none!important} }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <svg class="vault" viewBox="0 0 260 260" role="img" aria-label="A safe being sealed">
+      <defs>
+        <radialGradient id="steel" cx="38%" cy="30%" r="80%">
+          <stop offset="0%" stop-color="#26241f"/><stop offset="55%" stop-color="#17150f"/><stop offset="100%" stop-color="#0b0a08"/>
+        </radialGradient>
+        <radialGradient id="brass" cx="38%" cy="30%" r="75%">
+          <stop offset="0%" stop-color="#F5D76E"/><stop offset="45%" stop-color="#D4AF37"/><stop offset="100%" stop-color="#8A6E2F"/>
+        </radialGradient>
+      </defs>
+      <circle cx="130" cy="130" r="124" fill="#0b0a08" stroke="#3D3A34" stroke-width="3"/>
+      <g>
+        <circle class="bolt" cx="130" cy="20"  r="5" fill="url(#brass)"/>
+        <circle class="bolt" cx="240" cy="130" r="5" fill="url(#brass)"/>
+        <circle class="bolt" cx="130" cy="240" r="5" fill="url(#brass)"/>
+        <circle class="bolt" cx="20"  cy="130" r="5" fill="url(#brass)"/>
+      </g>
+      <circle cx="130" cy="130" r="104" fill="url(#steel)" stroke="#3D3A34" stroke-width="2"/>
+      <circle class="ring" cx="130" cy="130" r="104" fill="none" stroke="rgba(212,175,55,.35)" stroke-width="1"/>
+      <g id="dialRot">
+        <circle cx="130" cy="130" r="52" fill="url(#steel)" stroke="url(#brass)" stroke-width="3"/>
+        <circle cx="130" cy="130" r="30" fill="#0b0a08" stroke="url(#brass)" stroke-width="2"/>
+        <rect x="127" y="82" width="6" height="26" rx="3" fill="url(#brass)"/>
+        <circle cx="130" cy="130" r="5" fill="#F5D76E"/>
+      </g>
+      <g>
+        <rect x="126" y="196" width="8" height="42" rx="4" fill="url(#brass)"/>
+        <rect x="96" y="214" width="68" height="8" rx="4" fill="url(#brass)" transform="rotate(42 130 218)"/>
+      </g>
+    </svg>
+    <p class="eyebrow">The Vault Thief · $THIEF</p>
+    <h1>THE VAULT IS<br>BEING LOCKED</h1>
+    <p class="seal">Sealing the safe…</p>
+    <p class="soon">The heist opens <b>soon</b>.</p>
+    <a class="x" href="https://x.com/thevaultthief" target="_blank" rel="noopener">Follow @thevaultthief on X</a>
+    <p class="foot">It's a game. The prize is the vault's own contents — no one is being stolen from.</p>
+  </div>
+</body>
+</html>

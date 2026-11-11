@@ -33,6 +33,8 @@ Assumes ~100M keys/s per rented GPU (RTX 4090 class) and ~$0.40/GPU-hour. Times 
 
 | hidden glyphs | bits | search space | 1 GPU | 10 GPUs | 100 GPUs | rough $ to crack |
 |---|---|---|---|---|---|---|
+| 4 | 23 | 1.1e7 | <1 s | <1 s | <1 s | pennies (an ordinary laptop in ~seconds) |
+| 5 | 29 | 6.6e8 | ~7 s | <1 s | <1 s | pennies (a laptop in ~minutes) |
 | 6 | 35 | 3.8e10 | 3 min | 19 s | 2 s | <$1 |
 | 7 | 41 | 2.2e12 | 3 h | 18 min | 2 min | ~$1 |
 | **8** | 47 | 1.3e14 | 7 days | 18 h | **1.8 h** | **~$70** |
@@ -40,4 +42,6 @@ Assumes ~100M keys/s per rented GPU (RTX 4090 class) and ~$0.40/GPU-hour. Times 
 | 10 | 59 | 4.3e17 | 68 yr | 7 yr | 249 days | ~$240,000 |
 | 11 | 64 | 2.5e19 | 4,000 yr | 400 yr | 40 yr | ~$14M |
 
-Read it against the pot: a rational cracker spends up to roughly the pot's value. **At 8 hidden glyphs (~$70) a pot worth more than ~$100 is already crackable within hours.** At 9 (~$4k) it falls once the pot clears a few thousand dollars. 10+ is effectively safe for now. That is why the default schedule drips the endgame one glyph per ~7 days from 9 → 8 → 7 → 6: it keeps the pot climbing while the cost-to-crack falls past it, so the race has a window instead of ending instantly.
+Read it against the pot: a rational cracker spends up to roughly the pot's value. **At 8 hidden glyphs (~$70) a pot worth more than ~$100 is already crackable within hours.** At 9 (~$4k) it falls once the pot clears a few thousand dollars. 10+ is effectively safe for now.
+
+**This is a 24-hour game**, so the schedule deliberately walks the vault down this curve against the clock. For roughly the first 12 hours it sits at 9–14 hidden (effectively uncrackable) while the pot climbs on milestones. Then the endgame drip tightens: 9 → 8 (hour 15) → 7 (17) → 6 (19) → 5 (20.5) → 4 (22), so in the final hours the cost-to-crack falls below almost any pot and an ordinary laptop can grind the remaining 4–5 glyphs in seconds-to-minutes. At **hour 24** the final tumblers — including position 0 — open and the full seed is public. The result: the vault is hard to steal early, there is **always** a winnable window before 24 h, and the game is guaranteed to end. (Position 0 is only ~4.0 bits, so the last few counts are even cheaper than the 5.86-bits-each rows above.)
