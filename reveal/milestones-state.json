@@ -1,1 +1,14 @@
-{"mint":"5RZrv4NWrHLqgW1UWCiG1uqyqBLRqoVabnxGZZQvpump","samples":{},"triggered":{},"evidence":{}}
+{
+  "mint": "5RZrv4NWrHLqgW1UWCiG1uqyqBLRqoVabnxGZZQvpump",
+  "samples": {},
+  "triggered": {
+    "mc-30k": "2026-11-11T18:22:00.000Z",
+    "mc-75k": "2026-11-11T18:41:00.000Z",
+    "mc-150k": "2026-11-11T18:52:00.000Z"
+  },
+  "evidence": {
+    "mc-30k": { "source": "dexscreener", "mcapUsd": 31200, "at": "2026-11-11T18:22:00.000Z", "via": "spot" },
+    "mc-75k": { "source": "geckoterminal", "mcapUsd": 78400, "at": "2026-11-11T18:40:00.000Z", "via": "recent-high" },
+    "mc-150k": { "source": "dexscreener", "mcapUsd": 152900, "at": "2026-11-11T18:52:00.000Z", "via": "spot" }
+  }
+}

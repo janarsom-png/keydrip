@@ -97,7 +97,7 @@ function materializeSecret() {
     const st = stepById[g.step] || {};
     const type = g.revealedBy === 'milestone' ? 'milestone'
       : (/drip|final/.test(g.step || '') ? 'endgame' : 'reveal');
-    add({ type, ref: `glyph-${g.k}`, pos: g.pos, char: g.char, label: st.label, revealedBy: g.revealedBy, verified: true, title: st.label || `Glyph ${g.k} revealed` });
+    add({ type, ref: `glyph-${g.k}`, pos: g.pos, char: g.char, label: st.label, revealedBy: g.revealedBy, evidence: g.evidence || null, verified: true, title: st.label || `Glyph ${g.k} revealed` });
   }
   if (reveals.game && reveals.game.status === 'won' && prev.game.status !== 'won') {
     const w = reveals.game.winner || {};

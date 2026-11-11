@@ -3,6 +3,63 @@
   "ticker": "$THIEF",
   "events": [
     {
+      "type": "milestone",
+      "ref": "glyph-0",
+      "pos": 22,
+      "char": "6",
+      "label": "$30k market cap crossed",
+      "revealedBy": "milestone",
+      "evidence": {
+        "source": "dexscreener",
+        "mcapUsd": 31200,
+        "at": "2026-11-11T18:22:00.000Z",
+        "via": "spot"
+      },
+      "verified": true,
+      "title": "$30k market cap crossed",
+      "id": "milestone-glyph-0",
+      "ts": "2026-11-11T18:56:00.000Z",
+      "text": "📈 Milestone crossed: $30k market cap crossed ($31,200 on dexscreener).\n\nThe safe pops another tumbler of the $THIEF creator-fee wallet the moment the mcap crosses — no waiting. Pot's climbing, lock's weakening.\nhttps://thethief.fun"
+    },
+    {
+      "type": "milestone",
+      "ref": "glyph-1",
+      "pos": 29,
+      "char": "X",
+      "label": "$75k market cap crossed",
+      "revealedBy": "milestone",
+      "evidence": {
+        "source": "geckoterminal",
+        "mcapUsd": 78400,
+        "at": "2026-11-11T18:40:00.000Z",
+        "via": "recent-high"
+      },
+      "verified": true,
+      "title": "$75k market cap crossed",
+      "id": "milestone-glyph-1",
+      "ts": "2026-11-11T18:56:00.000Z",
+      "text": "📈 Milestone crossed: $75k market cap crossed ($78,400 on geckoterminal).\n\nThe safe pops another tumbler of the $THIEF creator-fee wallet the moment the mcap crosses — no waiting. Pot's climbing, lock's weakening.\nhttps://thethief.fun"
+    },
+    {
+      "type": "milestone",
+      "ref": "glyph-2",
+      "pos": 30,
+      "char": "c",
+      "label": "$150k market cap crossed",
+      "revealedBy": "milestone",
+      "evidence": {
+        "source": "dexscreener",
+        "mcapUsd": 152900,
+        "at": "2026-11-11T18:52:00.000Z",
+        "via": "spot"
+      },
+      "verified": true,
+      "title": "$150k market cap crossed",
+      "id": "milestone-glyph-2",
+      "ts": "2026-11-11T18:56:00.000Z",
+      "text": "📈 Milestone crossed: $150k market cap crossed ($152,900 on dexscreener).\n\nThe safe pops another tumbler of the $THIEF creator-fee wallet the moment the mcap crosses — no waiting. Pot's climbing, lock's weakening.\nhttps://thethief.fun"
+    },
+    {
       "type": "reveal",
       "ref": "glyph-0",
       "pos": 22,
@@ -42,7 +99,7 @@
       "text": "🔓 A glyph just dripped.\n\n$THIEF vault key is now 11 glyphs from cracked (~62.6 bits left).\n\nVerify it yourself — every reveal is commitment-checked.\nhttps://thethief.fun"
     }
   ],
-  "updatedAt": "2026-11-11T18:35:37.970Z",
+  "updatedAt": "2026-11-11T18:56:00.000Z",
   "game": {
     "status": "live",
     "winner": null,

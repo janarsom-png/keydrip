@@ -154,7 +154,16 @@
       const by = ev.revealedBy ? ` · ${ev.revealedBy}` : '';
       const verified = ev.verified ? '<span class="feed-ok" title="commitment verified">✓ verified</span>' : '';
       const link = ev.type === 'win' && (ev.solscan || ev.tx) ? ` · <a target="_blank" rel="noopener" href="${ev.solscan || 'https://solscan.io/tx/'+ev.tx}">Solscan ↗</a>` : '';
-      li.innerHTML = `<span class="feed-ic">${icon[ev.type]||'•'}</span><span class="feed-body"><b>${title}</b>${verified}<span class="feed-when">${when}${by}${link}</span></span>`;
+      let proof = '';
+      if (ev.evidence && ev.evidence.source) {
+        const e = ev.evidence;
+        const mc = Number(e.mcapUsd);
+        const mcTxt = mc >= 1000 ? '$' + (mc/1000).toFixed(mc >= 100000 ? 0 : 1) + 'k' : '$' + mc;
+        const t = e.at ? new Date(e.at).toUTCString().replace(/:\d\d GMT$/,' UTC').replace(/^[A-Za-z]{3}, /,'') : '';
+        const srcName = { dexscreener: 'DexScreener', geckoterminal: 'GeckoTerminal', birdeye: 'Birdeye', pumpfun: 'pump.fun' }[e.source] || e.source;
+        proof = `<span class="feed-proof">Lock popped: mcap ${mcTxt} on ${srcName}${t ? ' at ' + t : ''}${e.via === 'recent-high' ? ' (recent high)' : ''}</span>`;
+      }
+      li.innerHTML = `<span class="feed-ic">${icon[ev.type]||'•'}</span><span class="feed-body"><b>${title}</b>${verified}${proof}<span class="feed-when">${when}${by}${link}</span></span>`;
       list.appendChild(li);
     });
   }

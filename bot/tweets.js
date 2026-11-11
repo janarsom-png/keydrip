@@ -9,8 +9,11 @@ function tweetFor(ev, cfg, reveals) {
       return `\u{1F510} The 24-hour heist is live.\n\n${T}: 100% of creator fees are locked in a safe. Its combination drips out one tumbler at a time over 24h \u2014 faster when the market cap jumps. Last tumblers open as the clock runs out. First thief to crack it sweeps the vault.\n${site}`;
     case 'reveal':
       return `🔓 A glyph just dripped.\n\n${T} vault key is now ${hidden} glyphs from cracked (~${bits} bits left).\n\nVerify it yourself — every reveal is commitment-checked.\n${site}`;
-    case 'milestone':
-      return `📈 Milestone hit: ${ev.label}.\n\nThe vault leaks another glyph of the ${T} creator-fee wallet. Pot's climbing, lock's weakening.\n${site}`;
+    case 'milestone': {
+      const ev2 = ev.evidence || {};
+      const proof = ev2.source ? ` ($${Number(ev2.mcapUsd).toLocaleString()} on ${ev2.source})` : '';
+      return `📈 Milestone crossed: ${ev.label}${proof}.\n\nThe safe pops another tumbler of the ${T} creator-fee wallet the moment the mcap crosses — no waiting. Pot's climbing, lock's weakening.\n${site}`;
+    }
     case 'endgame':
       return `⏳ Final hours: ${ev.label}.\n\n${T} is down to ${hidden} hidden glyphs (~${bits} bits) — getting crackable on an ordinary PC. At the 24h mark the last tumblers open. The race is on.\n${site}`;
     case 'win':

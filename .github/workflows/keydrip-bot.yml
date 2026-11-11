@@ -1,6 +1,6 @@
 name: The Vault Thief bot
 
-# Runs one tick every 10 minutes: samples market cap, opens any time-locked glyphs whose deadline
+# Runs one tick every 5 minutes (the most frequent GitHub Actions cron allows): samples market cap, opens any time-locked glyphs whose deadline
 # has passed (NO secret needed — drand does it), checks for a winning sweep, rebuilds site/reveals.json
 # + site/feed.json + X drafts, commits the changes, and publishes site/ to GitHub Pages.
 #
@@ -16,7 +16,7 @@ name: The Vault Thief bot
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 permissions:

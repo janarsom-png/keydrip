@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-11-11T18:35:38.048Z",
+  "generatedAt": "2026-11-11T18:53:08.780Z",
   "wallet": "6pXpQ9m1mWyndtEftrZH1YvSyk2sKszrhr8WaUV87jCg",
   "feeSplit": {
     "mint": "5RZrv4NWrHLqgW1UWCiG1uqyqBLRqoVabnxGZZQvpump",
@@ -27,47 +27,65 @@
       "pos": 22,
       "commitment": "ee3f571efcfb08ade1567f1000a5bfd517c5058e5c369f27d076d0033e185518",
       "step": "mc-30k",
-      "deadline": "2026-11-11T12:30:00.000Z",
-      "round": 33865612,
+      "deadline": "2026-11-11T20:30:00.000Z",
+      "round": 33875212,
       "revealed": true,
       "char": "6",
       "salt": "251335e55596aab1b3724238143ea57c",
-      "revealedBy": "timelock",
-      "revealedAt": "2026-11-11T12:30:00.000Z"
+      "revealedBy": "milestone",
+      "revealedAt": "2026-11-11T18:22:00.000Z",
+      "evidence": {
+        "source": "dexscreener",
+        "mcapUsd": 31200,
+        "at": "2026-11-11T18:22:00.000Z",
+        "via": "spot"
+      }
     },
     {
       "k": 1,
       "pos": 29,
       "commitment": "9c215629bbc928985b69e9fd4e93a1ede4cebb7dd74519acf68d410fa3c5453b",
       "step": "mc-75k",
-      "deadline": "2026-11-11T15:00:00.000Z",
-      "round": 33868612,
+      "deadline": "2026-11-11T23:00:00.000Z",
+      "round": 33878212,
       "revealed": true,
       "char": "X",
       "salt": "9b4ed172d2203a0ebb229f6e01bb5951",
-      "revealedBy": "timelock",
-      "revealedAt": "2026-11-11T15:00:00.000Z"
+      "revealedBy": "milestone",
+      "revealedAt": "2026-11-11T18:41:00.000Z",
+      "evidence": {
+        "source": "geckoterminal",
+        "mcapUsd": 78400,
+        "at": "2026-11-11T18:40:00.000Z",
+        "via": "recent-high"
+      }
     },
     {
       "k": 2,
       "pos": 30,
       "commitment": "702d783c39977297d6c2c89a3a12a5d88a672d59cad08fa6e9ee3905916fa838",
       "step": "mc-150k",
-      "deadline": "2026-11-11T17:30:00.000Z",
-      "round": 33871612,
+      "deadline": "2026-11-12T01:30:00.000Z",
+      "round": 33881212,
       "revealed": true,
       "char": "c",
       "salt": "c9fab600278ae9969d0b8f4a214510fc",
-      "revealedBy": "timelock",
-      "revealedAt": "2026-11-11T17:30:00.000Z"
+      "revealedBy": "milestone",
+      "revealedAt": "2026-11-11T18:52:00.000Z",
+      "evidence": {
+        "source": "dexscreener",
+        "mcapUsd": 152900,
+        "at": "2026-11-11T18:52:00.000Z",
+        "via": "spot"
+      }
     },
     {
       "k": 3,
       "pos": 32,
       "commitment": "63402641666ffa93d6b973471b00f04131042c1edf64332cbf89a7c7ecae80e9",
       "step": "mc-300k",
-      "deadline": "2026-11-11T20:00:00.000Z",
-      "round": 33874612,
+      "deadline": "2026-11-12T04:00:00.000Z",
+      "round": 33884212,
       "revealed": false
     },
     {
@@ -75,8 +93,8 @@
       "pos": 3,
       "commitment": "08fc8736a19e421656768354b5e8e5ae7c97c8d558fd2a9082211f921b8b8926",
       "step": "mc-600k",
-      "deadline": "2026-11-11T22:30:00.000Z",
-      "round": 33877612,
+      "deadline": "2026-11-12T06:30:00.000Z",
+      "round": 33887212,
       "revealed": false
     },
     {
@@ -84,8 +102,8 @@
       "pos": 42,
       "commitment": "7bfd8b13a9e95577c398a785755ffdfd6779ce038e9dd94b48b54ef23c6ad746",
       "step": "drip-1",
-      "deadline": "2026-11-12T01:00:00.000Z",
-      "round": 33880612,
+      "deadline": "2026-11-12T09:00:00.000Z",
+      "round": 33890212,
       "revealed": false
     },
     {
@@ -93,8 +111,8 @@
       "pos": 40,
       "commitment": "fb2dcc4aa43958e8ea9df71e9db21c8d6c95b524e1470413027188af6383202a",
       "step": "drip-2",
-      "deadline": "2026-11-12T03:00:00.000Z",
-      "round": 33883012,
+      "deadline": "2026-11-12T11:00:00.000Z",
+      "round": 33892612,
       "revealed": false
     },
     {
@@ -102,8 +120,8 @@
       "pos": 34,
       "commitment": "ddc31dd4678cf4c2ef158104479af7ac9031c00338ca161ba1dcb362f217b751",
       "step": "drip-3",
-      "deadline": "2026-11-12T05:00:00.000Z",
-      "round": 33885412,
+      "deadline": "2026-11-12T13:00:00.000Z",
+      "round": 33895012,
       "revealed": false
     },
     {
@@ -111,8 +129,8 @@
       "pos": 31,
       "commitment": "28e592eb078980d52340ad716781fac5d378d0f5de1c50b7cd05a2e0a643113f",
       "step": "drip-4",
-      "deadline": "2026-11-12T06:30:00.000Z",
-      "round": 33887212,
+      "deadline": "2026-11-12T14:30:00.000Z",
+      "round": 33896812,
       "revealed": false
     },
     {
@@ -120,8 +138,8 @@
       "pos": 14,
       "commitment": "899c98b36a620f51d7c05118d4fa48ac126085a7de983e9aa6d64eb32679881d",
       "step": "drip-5",
-      "deadline": "2026-11-12T08:00:00.000Z",
-      "round": 33889012,
+      "deadline": "2026-11-12T16:00:00.000Z",
+      "round": 33898612,
       "revealed": false
     },
     {
@@ -129,8 +147,8 @@
       "pos": 39,
       "commitment": "b604c192fe0177814592e1a55986fd0d76ac54700ba2b594d7caf2ef1982bdaa",
       "step": "final",
-      "deadline": "2026-11-12T10:00:00.000Z",
-      "round": 33891412,
+      "deadline": "2026-11-12T18:00:00.000Z",
+      "round": 33901012,
       "revealed": false
     },
     {
@@ -138,8 +156,8 @@
       "pos": 23,
       "commitment": "f3c973f28b35b1d8c6643036fb55083e0ca8e3e04098b01008467b7bb0644596",
       "step": "final",
-      "deadline": "2026-11-12T10:00:00.000Z",
-      "round": 33891412,
+      "deadline": "2026-11-12T18:00:00.000Z",
+      "round": 33901012,
       "revealed": false
     },
     {
@@ -147,8 +165,8 @@
       "pos": 37,
       "commitment": "74c7bd8e16bfb06827997625fb107e9af6eedd38f1852df226ca998a9ff88db0",
       "step": "final",
-      "deadline": "2026-11-12T10:00:00.000Z",
-      "round": 33891412,
+      "deadline": "2026-11-12T18:00:00.000Z",
+      "round": 33901012,
       "revealed": false
     },
     {
@@ -156,139 +174,168 @@
       "pos": 0,
       "commitment": "803fd09397cae298abe1e11d8d24d696fcac8e8f21e6dd535e9999485e1a0d5d",
       "step": "final",
-      "deadline": "2026-11-12T10:00:00.000Z",
-      "round": 33891412,
+      "deadline": "2026-11-12T18:00:00.000Z",
+      "round": 33901012,
       "revealed": false
     }
   ],
   "steps": [
     {
       "id": "mc-30k",
-      "label": "Sustained $30k market cap",
+      "label": "$30k market cap crossed",
       "milestone": {
         "mcapUsd": 30000
       },
-      "deadline": "2026-11-11T12:30:00.000Z",
+      "deadline": "2026-11-11T20:30:00.000Z",
       "glyphs": 1,
       "done": true,
-      "doneBy": "timelock"
+      "doneBy": "milestone",
+      "evidence": {
+        "source": "dexscreener",
+        "mcapUsd": 31200,
+        "at": "2026-11-11T18:22:00.000Z",
+        "via": "spot"
+      }
     },
     {
       "id": "mc-75k",
-      "label": "Sustained $75k market cap",
+      "label": "$75k market cap crossed",
       "milestone": {
         "mcapUsd": 75000
       },
-      "deadline": "2026-11-11T15:00:00.000Z",
+      "deadline": "2026-11-11T23:00:00.000Z",
       "glyphs": 1,
       "done": true,
-      "doneBy": "timelock"
+      "doneBy": "milestone",
+      "evidence": {
+        "source": "geckoterminal",
+        "mcapUsd": 78400,
+        "at": "2026-11-11T18:40:00.000Z",
+        "via": "recent-high"
+      }
     },
     {
       "id": "mc-150k",
-      "label": "Sustained $150k market cap",
+      "label": "$150k market cap crossed",
       "milestone": {
         "mcapUsd": 150000
       },
-      "deadline": "2026-11-11T17:30:00.000Z",
+      "deadline": "2026-11-12T01:30:00.000Z",
       "glyphs": 1,
       "done": true,
-      "doneBy": "timelock"
+      "doneBy": "milestone",
+      "evidence": {
+        "source": "dexscreener",
+        "mcapUsd": 152900,
+        "at": "2026-11-11T18:52:00.000Z",
+        "via": "spot"
+      }
     },
     {
       "id": "mc-300k",
-      "label": "Sustained $300k market cap",
+      "label": "$300k market cap crossed",
       "milestone": {
         "mcapUsd": 300000
       },
-      "deadline": "2026-11-11T20:00:00.000Z",
+      "deadline": "2026-11-12T04:00:00.000Z",
       "glyphs": 1,
       "done": false,
-      "doneBy": null
+      "doneBy": null,
+      "evidence": null
     },
     {
       "id": "mc-600k",
-      "label": "Sustained $600k market cap",
+      "label": "$600k market cap crossed",
       "milestone": {
         "mcapUsd": 600000
       },
-      "deadline": "2026-11-11T22:30:00.000Z",
+      "deadline": "2026-11-12T06:30:00.000Z",
       "glyphs": 1,
       "done": false,
-      "doneBy": null
+      "doneBy": null,
+      "evidence": null
     },
     {
       "id": "drip-1",
       "label": "Time-lock drip (8h left)",
       "milestone": null,
-      "deadline": "2026-11-12T01:00:00.000Z",
+      "deadline": "2026-11-12T09:00:00.000Z",
       "glyphs": 1,
       "done": false,
-      "doneBy": null
+      "doneBy": null,
+      "evidence": null
     },
     {
       "id": "drip-2",
       "label": "Time-lock drip (7h left)",
       "milestone": null,
-      "deadline": "2026-11-12T03:00:00.000Z",
+      "deadline": "2026-11-12T11:00:00.000Z",
       "glyphs": 1,
       "done": false,
-      "doneBy": null
+      "doneBy": null,
+      "evidence": null
     },
     {
       "id": "drip-3",
       "label": "Endgame drip (5h left)",
       "milestone": null,
-      "deadline": "2026-11-12T05:00:00.000Z",
+      "deadline": "2026-11-12T13:00:00.000Z",
       "glyphs": 1,
       "done": false,
-      "doneBy": null
+      "doneBy": null,
+      "evidence": null
     },
     {
       "id": "drip-4",
       "label": "Endgame drip (3.5h left)",
       "milestone": null,
-      "deadline": "2026-11-12T06:30:00.000Z",
+      "deadline": "2026-11-12T14:30:00.000Z",
       "glyphs": 1,
       "done": false,
-      "doneBy": null
+      "doneBy": null,
+      "evidence": null
     },
     {
       "id": "drip-5",
       "label": "Endgame drip (2h left)",
       "milestone": null,
-      "deadline": "2026-11-12T08:00:00.000Z",
+      "deadline": "2026-11-12T16:00:00.000Z",
       "glyphs": 1,
       "done": false,
-      "doneBy": null
+      "doneBy": null,
+      "evidence": null
     },
     {
       "id": "final",
       "label": "Vault opens: final glyphs + full seed",
       "milestone": null,
-      "deadline": "2026-11-12T10:00:00.000Z",
+      "deadline": "2026-11-12T18:00:00.000Z",
       "glyphs": 4,
       "done": false,
-      "doneBy": null
+      "doneBy": null,
+      "evidence": null
     }
   ],
   "next": {
     "id": "mc-300k",
-    "label": "Sustained $300k market cap",
-    "deadline": "2026-11-11T20:00:00.000Z",
+    "label": "$300k market cap crossed",
+    "deadline": "2026-11-12T04:00:00.000Z",
     "milestone": {
       "mcapUsd": 300000
     }
   },
   "milestoneRule": {
-    "_note": "Short game => short sustained window: 12 min continuous on >=2 independent sources, no gap > 4 min. Wash/one-block spikes can't trigger it.",
-    "windowMinutes": 12,
-    "minSources": 2,
-    "maxGapMinutes": 4,
+    "_note": "INSTANT crossing. A milestone triggers on the first poll where market cap >= the threshold on ANY one reliable source (minSources: 1). Where a source exposes a recent high (GeckoTerminal OHLCV high since the last poll) that high is used, so a brief spike between polls still counts. Once triggered it NEVER un-triggers. No sustained-duration requirement. The bot polls every 5 minutes, so a reveal lands within a few minutes of the crossing.",
+    "minSources": 1,
+    "useRecentHigh": true,
+    "reliableSources": [
+      "dexscreener",
+      "geckoterminal"
+    ],
     "sources": [
       "dexscreener",
-      "birdeye",
       "geckoterminal",
+      "birdeye",
       "pumpfun"
     ]
   },

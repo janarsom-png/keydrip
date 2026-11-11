@@ -31,7 +31,8 @@ const winner = fs.existsSync(winnerFile) ? JSON.parse(fs.readFileSync(winnerFile
 
 const manual = new Set((opt('--done', '') || '').split(',').map(s => s.trim()).filter(Boolean));
 const triggered = new Map(); // id -> ISO
-if (fs.existsSync(statePath)) for (const [id, t] of Object.entries(JSON.parse(fs.readFileSync(statePath, 'utf8')).triggered || {})) triggered.set(id, t);
+const evidence = new Map(); // id -> { source, mcapUsd, at, via }
+if (fs.existsSync(statePath)) { const _st = JSON.parse(fs.readFileSync(statePath, 'utf8')); for (const [id, t] of Object.entries(_st.triggered || {})) triggered.set(id, t); for (const [id, e] of Object.entries(_st.evidence || {})) evidence.set(id, e); }
 for (const id of manual) if (!triggered.has(id)) triggered.set(id, new Date(now).toISOString());
 
 const steps = tl.scheduleSteps;
@@ -75,6 +76,7 @@ steps.forEach((s, i) => { if (Date.parse(s.deadline) <= now || triggered.has(s.i
       const revealedBy = byDeadline ? 'timelock' : (byMilestone ? 'milestone' : 'winner');
       Object.assign(g, { revealed: true, char: o.char, salt: o.salt,
         revealedBy, revealedAt: byDeadline ? e.deadline : (byMilestone ? triggered.get(st.id) : new Date(now).toISOString()) });
+      if (revealedBy === 'milestone' && st && evidence.has(st.id)) g.evidence = evidence.get(st.id);
       masked[e.pos] = o.char;
     }
     return g;
@@ -101,7 +103,7 @@ steps.forEach((s, i) => { if (Date.parse(s.deadline) <= now || triggered.has(s.i
     },
     glyphs,
     steps: steps.map((s, i) => ({ id: s.id, label: s.label, milestone: s.milestone, deadline: s.deadline, glyphs: s.glyphs.length,
-      done: i <= doneThrough, doneBy: i > doneThrough ? null : (Date.parse(s.deadline) <= now ? 'timelock' : 'milestone') })),
+      done: i <= doneThrough, doneBy: i > doneThrough ? null : (Date.parse(s.deadline) <= now ? 'timelock' : 'milestone'), evidence: evidence.get(s.id) || null })),
     next: nextStep ? { id: nextStep.id, label: nextStep.label, deadline: nextStep.deadline, milestone: nextStep.milestone } : null,
     milestoneRule: tl.milestoneRule,
     timelock: { file: 'timelocks.json', ...tl.drand },

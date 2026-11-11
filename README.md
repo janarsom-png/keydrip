@@ -12,7 +12,7 @@ lib/common.js            shared: fee-split/vault addrs, per-glyph commitment, di
 lib/schedule.js          schedule parsing (deadlines, reveal counts)
 launch/timelock.js       drand-lock every glyph to its deadline (guaranteed ending)
 launch/shareholders.example.json  optional multi-recipient fee split (buyback/burn)
-reveal/milestone-watch.js sustained-mcap milestone watcher (2+ sources)
+reveal/milestone-watch.js instant-crossing milestone watcher (any reliable source)
 reveal/tlock-open.js / verify-reveals.js  public verification helpers
 crack/crack.js           public CPU cracker (+ crack/README.md GPU guide)
 launch/fee-split.js      set the fee split (dry-run by default), verify the lock, distribute fees
@@ -57,9 +57,9 @@ Two independent guarantees, both verifiable by anyone, no trust in us required f
 
 **Milestones only accelerate.** A milestone reveal happens *earlier* than the deadline; it can never delay one. Milestone-early reveals are published by us (we hold the char+salt until the trigger), so for those you trust us not to sit on a triggered milestone — the time-lock is the backstop. This is stated plainly on the site.
 
-## Milestones: sustained market cap, two sources
+## Milestones: instant on market-cap crossing
 
-`reveal/milestone-watch.js` triggers a milestone only when the market cap holds **continuously** at or above the threshold for `windowMinutes` (default 60) on at least `minSources` (default 2) **independent** price feeds — DexScreener, GeckoTerminal, Birdeye (needs `BIRDEYE_API_KEY`), pump.fun. Every sample in the window must be above the line and cover it with no gap longer than `maxGapMinutes`, so a single wash-traded bundle or a one-block spike can't trigger it. Triggers (with which sources agreed) are written to `reveal/milestones-state.json`, which `reveal.js` reads. Run it as `node reveal/milestone-watch.js --mint <MINT> --reveal` (loop) and deploy the updated `reveals.json`.
+`reveal/milestone-watch.js` triggers a milestone on the **first poll** where the market cap is at or above the threshold on **any one** `reliableSources` feed (default `minSources: 1`, feeds DexScreener and GeckoTerminal). Where a source exposes a recent high — GeckoTerminal's OHLCV minute high since the last poll (`useRecentHigh`) — that high is used, so a brief spike **between** polls still counts. **There is no sustained-duration requirement**: a delay would make holders doubt the reveal fired, so the lock pops the moment the cap is crossed. Once triggered a milestone is **permanent** and never un-triggers. The source, value and time that tripped it are recorded in `reveal/milestones-state.json` (`evidence`) and shown on the site's reveal history (e.g. *“Lock popped: mcap $75.2k on DexScreener at 14:03 UTC”*) so anyone can verify it. Birdeye (needs `BIRDEYE_API_KEY`) and pump.fun are still polled for display but are not in `reliableSources` by default. Run it as `node reveal/milestone-watch.js --mint <MINT> --reveal` (loop) and deploy the updated `reveals.json`.
 
 ## Difficulty, schedule, and cost-to-crack
 
@@ -96,7 +96,7 @@ Hour → hidden-glyph curve (time-lock backstops; a milestone only pulls a glyph
 | 22 | `drip-5` | 4 |
 | 24 | `final` (reveals 4, incl. position 0) | 0 |
 
-Milestones are confirmed only when the market cap **holds** above the threshold on **two independent price feeds** for about ten minutes (`milestoneRule` in the schedule), so a one-tick wick can't trip them. The schedule is fully configurable: `maxGameHours`, `startHidden`, `milestoneRule`, per-step `milestone.mcapUsd`, `deadline` (`+2.5h`, `+90m`, `+1d`, or absolute ISO), and `reveal` (glyphs per step; the `reveal` values must sum to `startHidden`). After editing, re-run `launch/timelock.js` to re-lock to the new deadlines.
+Milestones fire **instantly**: the first poll where the market cap crosses the threshold on **any one reliable feed** (DexScreener or GeckoTerminal) pops that lock, using a source's recent high so a spike between polls still counts (`milestoneRule` in the schedule). No sustained-duration wait. The schedule is fully configurable: `maxGameHours`, `startHidden`, `milestoneRule`, per-step `milestone.mcapUsd`, `deadline` (`+2.5h`, `+90m`, `+1d`, or absolute ISO), and `reveal` (glyphs per step; the `reveal` values must sum to `startHidden`). After editing, re-run `launch/timelock.js` to re-lock to the new deadlines.
 
 ## Public cracking tool
 
@@ -135,7 +135,7 @@ Right after launch, pump.fun's **creator fee sharing** routes 100% of creator fe
    - In `site/config.js`, set `contractAddress` and `feeSplitProofTx` (the Solscan link of the step-4 transaction).
    - Run `node reveal/reveal.js --mint <MINT>`, then deploy `site/` (including `timelocks.json`).
    - The site's *Fee split* box reads the `sharing_config` live and shows **LOCKED** only if every check passes.
-7. **Advance reveals:** run the watcher `node reveal/milestone-watch.js --mint <MINT> --reveal` (keeps running; triggers on sustained mcap and rebuilds `reveals.json`). Glyphs also auto-unlock at their deadlines — re-run `node reveal/reveal.js --mint <MINT>` (or `--public`) and redeploy `site/reveals.json`.
+7. **Advance reveals:** run the watcher `node reveal/milestone-watch.js --mint <MINT> --reveal` (keeps running; triggers the instant the mcap crosses a threshold and rebuilds `reveals.json`). Glyphs also auto-unlock at their deadlines — re-run `node reveal/reveal.js --mint <MINT>` (or `--public`) and redeploy `site/reveals.json`.
 8. *(Optional, any time)* Push accrued fees into the puzzle wallet so the pot is visible as real wallet SOL. This is permissionless and any wallet can pay the network fee:
    `node launch/fee-split.js distribute --mint <MINT> --payer <ANY_WALLET>` (dry-run; add `--send --keypair` to send).
 
@@ -213,7 +213,7 @@ The bot is **read-only + file-writes**. It never posts to X and never signs an o
 written as draft text files for you to send.
 
 **One tick** — `node bot/run.js --mint <MINT>`:
-1. `reveal/milestone-watch.js --once` samples market cap into `reveal/milestones-state.json` (sustained-window state).
+1. `reveal/milestone-watch.js --once` samples market cap into `reveal/milestones-state.json` and fires any crossed milestone immediately (with `evidence`).
 2. **Winner scan** — looks for the first transaction *signed by* the puzzle wallet (the win signal) via RPC; on a hit
    it writes `bot/state/winner.json`.
 3. Rebuilds `site/reveals.json`: with a secret present it does milestone-early and final-on-win reveals; without one
@@ -224,11 +224,11 @@ written as draft text files for you to send.
 **Loop locally / on a VPS** — `node bot/loop.js --mint <MINT> --interval 120` runs the tick on an interval. Run it
 here (with `secrets/secret.json` present) if you want milestone-early reveals without GitHub holding the secret.
 
-**GitHub Actions** — `.github/workflows/keydrip-bot.yml` runs the tick every 10 minutes, commits
+**GitHub Actions** — `.github/workflows/keydrip-bot.yml` runs the tick every 5 minutes (the most frequent cron GitHub allows), commits
 `site/reveals.json`, `site/feed.json`, `reveal/milestones-state.json`, `bot/state/`, `drafts/`, and deploys `site/`
 to GitHub Pages. Secrets: `TOKEN_MINT` (required), `THIEF_SECRET_B64` = `base64 -w0 secrets/secret.json` (optional,
 only for milestone-early + final reveals; omit for the fully trustless time-locked path). `reveal/milestones-state.json`
-is committed so the sustained-market-cap window survives across runs.
+is committed so milestone triggers and their evidence survive across runs.
 
 **State files:** `bot/state/winner.json` (set once, sticky), `bot/state/last-reveals.json` (diff snapshot),
 `reveal/milestones-state.json` (mcap samples + triggered milestones). `bot/state/secret.runtime.json` (only if

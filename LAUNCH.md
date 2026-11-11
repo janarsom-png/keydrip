@@ -27,7 +27,7 @@ the fee-split and generate steps are the only ones that touch a wallet, and both
       | 22 | `drip-5` | 4 |
       | 24 | `final` (incl. position 0) | 0 |
 
-      Milestones confirm only when the mcap **holds** above the threshold on **two independent price feeds** for ~10 minutes (`milestoneRule`). A milestone only pulls a glyph *earlier*; the time-lock is the backstop.
+      Milestones fire **instantly** — the first poll where the mcap crosses the threshold on **any one reliable feed** (DexScreener or GeckoTerminal) pops that lock, using a source's recent high so a spike between polls still counts (`milestoneRule`). The bot polls every 5 min, so a reveal lands within a few minutes. The source/value/time are recorded as `evidence` and shown on the site. A milestone only pulls a glyph *earlier*; the time-lock is the backstop.
 - [ ] `node launch/timelock.js` — encrypts each hidden glyph to its step **deadline** via drand and writes
       `site/timelocks.json`. These ciphertexts are public and no one (including you) can open one early.
 - [ ] Sanity check: `node reveal/verify-reveals.js` and `node reveal/tlock-open.js` (nothing due yet should open nothing).
@@ -75,12 +75,12 @@ Your private preview URL is `https://thethief.fun/p/<the-slug-you-set>/`. Keep i
 **To flip the switch and go live (after steps 1–5 and the token is created):**
 ```sh
 gh variable set LAUNCHED --repo <owner>/<repo> --body true
-gh workflow run "The Vault Thief bot" --repo <owner>/<repo>   # or just wait for the next */10 tick
+gh workflow run "The Vault Thief bot" --repo <owner>/<repo>   # or just wait for the next */5 tick
 ```
 That single change makes the next deploy publish the **full game at the site root** and open `robots.txt` to full indexing. To pull it back to teaser-only, set `LAUNCHED` to `false` again. (The same `teaser/` page is what everyone sees pre-launch; edit it there if you want different copy.)
 
 ## 7. Go live
-- [ ] Run the bot once to seed the site: `node bot/run.js --mint <MINT>` (or let the `*/10` Actions schedule do it).
+- [ ] Run the bot once to seed the site: `node bot/run.js --mint <MINT>` (or let the `*/5` Actions schedule do it).
       It writes `site/reveals.json`, `site/feed.json`, X drafts under `drafts/`, and commits + deploys Pages.
 - [ ] **Delete the seed** from any online machine. Keep `secrets/` only where you run milestone reveals (if at all);
       it is git-ignored. `public-commitment.json` and `site/timelocks.json` are enough for the trustless path.

@@ -24,7 +24,7 @@ const rmState = () => { fs.rmSync(p('bot/state'), { recursive: true, force: true
 function injectTriggers(ids, now) {
   const sp = p('reveal/milestones-state.json');
   const st = fs.existsSync(sp) ? JSON.parse(fs.readFileSync(sp, 'utf8')) : { mint: MINT, samples: {}, triggered: {}, evidence: {} };
-  for (const id of ids) { st.triggered[id] = new Date(now).toISOString(); (st.evidence = st.evidence || {})[id] = { sources: ['dexscreener', 'geckoterminal'], windowMinutes: 60, sim: true }; }
+  for (const id of ids) { st.triggered[id] = new Date(now).toISOString(); (st.evidence = st.evidence || {})[id] = { source: 'dexscreener', mcapUsd: 123456, at: new Date(now).toISOString(), via: 'spot' }; }
   fs.writeFileSync(sp, JSON.stringify(st, null, 2));
 }
 
@@ -42,6 +42,16 @@ const check = (name, cond, got) => { const ok = !!cond; results.push(`${ok ? 'PA
 (async () => {
   save();
   try {
+    // --- unit tests: INSTANT milestone crossing (no sustained window) ---
+    const { evaluateMilestone } = require(p('reveal/milestone-watch.js'));
+    const R = { reliableSources: ['dexscreener', 'geckoterminal'], minSources: 1 };
+    check('milestone: below threshold -> no trigger', evaluateMilestone({ dexscreener: { high: 60000, spot: 60000 }, geckoterminal: { high: 61000, spot: 61000 } }, 75000, R).triggered === false);
+    const spot = evaluateMilestone({ dexscreener: { high: 76000, spot: 76000 }, geckoterminal: { high: 60000, spot: 60000 } }, 75000, R);
+    check('milestone: one source crosses -> instant trigger', spot.triggered === true && spot.source === 'dexscreener' && spot.via === 'spot', spot.source + '/' + spot.via);
+    const rh = evaluateMilestone({ dexscreener: { high: 60000, spot: 60000 }, geckoterminal: { high: 80000, spot: 61000, highAt: Date.parse('2026-11-11T14:03:00Z') } }, 75000, R);
+    check('milestone: recent-high spike counts', rh.triggered === true && rh.via === 'recent-high' && rh.mcapUsd === 80000, rh.via + '/' + rh.mcapUsd);
+    check('milestone: minSources:2 with one crossing -> no', evaluateMilestone({ dexscreener: { high: 76000, spot: 76000 }, geckoterminal: { high: 60000, spot: 60000 } }, 75000, { reliableSources: ['dexscreener', 'geckoterminal'], minSources: 2 }).triggered === false);
+
     rmState();
     // reset milestones-state and feed/drafts for a clean run
     fs.writeFileSync(p('reveal/milestones-state.json'), JSON.stringify({ mint: MINT, samples: {}, triggered: {}, evidence: {} }, null, 2));
@@ -63,6 +73,7 @@ const check = (name, cond, got) => { const ok = !!cond; results.push(`${ok ? 'PA
     r = tick(at(1.5));
     check('T1 mc-30k early: 13 hidden', r.puzzle.hiddenCount === 13, r.puzzle.hiddenCount);
     check('T1 glyph k0 revealedBy milestone', (r.glyphs.find(g => g.k === 0) || {}).revealedBy === 'milestone', (r.glyphs.find(g => g.k === 0) || {}).revealedBy);
+    check('T1 glyph k0 carries evidence (source+value+time)', (() => { const g = r.glyphs.find(x => x.k === 0) || {}; return g.evidence && g.evidence.source && g.evidence.mcapUsd && g.evidence.at; })(), JSON.stringify((r.glyphs.find(x => x.k === 0) || {}).evidence));
 
     // T2 — mc-75k + mc-150k pull two more early -> 11 hidden
     injectTriggers(['mc-75k', 'mc-150k'], at(2));
@@ -108,6 +119,7 @@ const check = (name, cond, got) => { const ok = !!cond; results.push(`${ok ? 'PA
     const glyphEvents = types.filter(t => ['reveal', 'milestone', 'endgame'].includes(t)).length;
     check('feed has >= 14 glyph reveal events', glyphEvents >= 14, glyphEvents);
     check('feed has milestone events', types.includes('milestone'));
+    check('milestone feed events carry evidence', feed.events.filter(e => e.type === 'milestone').every(e => e.evidence && e.evidence.source), 'first=' + JSON.stringify((feed.events.find(e => e.type === 'milestone') || {}).evidence));
     check('feed has endgame events', types.includes('endgame'), types.filter(t => t === 'endgame').length + ' endgame');
     check('feed has win event', types.includes('win'));
     const drafts = fs.existsSync(p('drafts')) ? fs.readdirSync(p('drafts')) : [];
