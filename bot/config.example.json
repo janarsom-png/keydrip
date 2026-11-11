@@ -1,0 +1,13 @@
+{
+  "_comment": "Copy to bot/config.json and fill in. The bot NEVER posts to X and NEVER sends on-chain.",
+  "tokenName": "KEYDRIP",
+  "ticker": "$KEYDRIP",
+  "mint": "",
+  "rpcEndpoints": ["https://solana-rpc.publicnode.com", "https://api.mainnet-beta.solana.com"],
+  "siteBaseUrl": "https://keydrip.example",
+  "links": { "pumpfun": "https://pump.fun/", "x": "https://x.com/keydrip", "telegram": "https://t.me/keydrip" },
+  "winner": {
+    "_note": "A transaction SIGNED BY the puzzle wallet means someone has the key. That is the win signal.",
+    "minOutLamports": 1
+  }
+}

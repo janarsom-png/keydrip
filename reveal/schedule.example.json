@@ -1,0 +1,27 @@
+{
+  "_comment": [
+    "Each step reveals `reveal` hidden glyphs (default 1), in the fixed order chosen by gen/generate.js.",
+    "deadline: relative to launch ('+36h', '+2d') or absolute ISO. Every hidden glyph is time-locked (drand tlock) to its step's deadline,",
+    "so the reveal happens AT THE LATEST at the deadline, even if the creator disappears. A milestone can only make a step happen EARLIER.",
+    "milestone.mcapUsd: market cap that must be held CONTINUOUSLY for milestoneRule.windowMinutes on >= minSources independent sources.",
+    "The sum of all `reveal` values must equal the number of hidden glyphs (startHidden)."
+  ],
+  "startHidden": 14,
+  "milestoneRule": {
+    "windowMinutes": 60,
+    "minSources": 2,
+    "maxGapMinutes": 10,
+    "sources": ["dexscreener", "birdeye", "geckoterminal", "pumpfun"]
+  },
+  "steps": [
+    { "id": "mc-50k",  "label": "Sustained $50k market cap",  "milestone": { "mcapUsd": 50000 },   "deadline": "+1d" },
+    { "id": "mc-100k", "label": "Sustained $100k market cap", "milestone": { "mcapUsd": 100000 },  "deadline": "+2d" },
+    { "id": "mc-250k", "label": "Sustained $250k market cap", "milestone": { "mcapUsd": 250000 },  "deadline": "+3d" },
+    { "id": "mc-500k", "label": "Sustained $500k market cap", "milestone": { "mcapUsd": 500000 },  "deadline": "+4d" },
+    { "id": "mc-1m",   "label": "Sustained $1M market cap",   "milestone": { "mcapUsd": 1000000 }, "deadline": "+5d" },
+    { "id": "drip-1",  "label": "Endgame drip 9 → 8",  "deadline": "+12d" },
+    { "id": "drip-2",  "label": "Endgame drip 8 → 7",  "deadline": "+19d" },
+    { "id": "drip-3",  "label": "Endgame drip 7 → 6",  "deadline": "+26d" },
+    { "id": "final",   "label": "Season end: all remaining glyphs", "deadline": "+40d", "reveal": 6 }
+  ]
+}

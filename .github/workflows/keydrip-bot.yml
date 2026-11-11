@@ -1,0 +1,62 @@
+name: KEYDRIP bot
+
+# Runs one tick every 10 minutes: samples market cap, opens any time-locked glyphs whose deadline
+# has passed (NO secret needed — drand does it), checks for a winning sweep, rebuilds site/reveals.json
+# + site/feed.json + X drafts, commits the changes, and publishes site/ to GitHub Pages.
+#
+# It NEVER posts to X and NEVER sends an on-chain transaction. Drafts are text files only.
+#
+# Secrets (Settings → Secrets and variables → Actions):
+#   TOKEN_MINT            required — the pump.fun mint address.
+#   KEYDRIP_SECRET_B64    optional — base64 of secrets/secret.json. Enables MILESTONE-EARLY reveals and the
+#                         final full-key reveal on win. Omit it to run the fully trustless time-locked path:
+#                         glyphs still open at their drand deadlines without any secret.
+#                         Trust note: whoever holds this secret can reveal early. Prefer running the
+#                         milestone path on your own machine (bot/loop.js) if you don't want GitHub to hold it.
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: keydrip-bot
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci || npm install
+      - name: Run one tick
+        env:
+          TOKEN_MINT: ${{ secrets.TOKEN_MINT }}
+          KEYDRIP_SECRET_B64: ${{ secrets.KEYDRIP_SECRET_B64 }}
+        run: |
+          if [ -z "$TOKEN_MINT" ]; then
+            echo "TOKEN_MINT is not set yet (token not launched) — skipping the tick and just publishing the current site/."
+            exit 0
+          fi
+          node bot/run.js --mint "$TOKEN_MINT" || echo "tick returned non-zero (non-fatal); publishing current site/ anyway"
+      - name: Commit state, reveals, feed, drafts
+        run: |
+          git config user.name "keydrip-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add site/reveals.json site/feed.json reveal/milestones-state.json bot/state drafts || true
+          git commit -m "bot tick $(date -u +%FT%TZ)" || echo "nothing to commit"
+          git push || echo "nothing to push"
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

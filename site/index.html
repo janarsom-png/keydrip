@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOKEN_NAME — Crack the key. Sweep the fees.</title>
+<meta name="description" content="100% of creator fees are locked to one vault wallet, and its key is revealed glyph by glyph. Whoever reconstructs it first sweeps the pot.">
+<meta property="og:title" content="TOKEN_NAME — Crack the key. Sweep the fees.">
+<meta property="og:description" content="The vault is opening. One glyph at a time.">
+<meta property="og:image" content="assets/banner-header.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/logo-vault-keyhole-512.png">
+<link rel="apple-touch-icon" href="assets/logo-vault-keyhole-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#">
+    <img src="assets/logo-vault-keyhole-512.png" alt="" width="40" height="40">
+    <span class="brand-name" data-bind="tokenName">TOKEN_NAME</span>
+  </a>
+  <nav>
+    <a href="#rules">Rules</a>
+    <a href="#verify">Verify</a>
+    <a data-link="x" target="_blank" rel="noopener">X</a>
+    <a data-link="telegram" target="_blank" rel="noopener">Telegram</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="winner-banner" id="winnerBanner" hidden>
+      <span class="wb-badge">VAULT CRACKED</span>
+      <span class="wb-text" id="winnerText">The key was reconstructed and the pot was swept.</span>
+      <a class="wb-link" id="winnerLink" target="_blank" rel="noopener">View sweep on Solscan ↗</a>
+      <span class="wb-note">The fee split is permanent, so creator fees keep arriving here — it's a sweeper race now.</span>
+    </div>
+    <div class="hero-bg" aria-hidden="true"></div>
+    <p class="eyebrow">The vault is opening</p>
+    <h1>Crack the key.<br>Sweep the fees.</h1>
+    <p class="lede">Every creator fee of <b data-bind="ticker">$TICKER</b> is locked to one vault wallet, and that wallet is leaking its secret, glyph by glyph. Whoever reconstructs it first takes the entire prize pool.</p>
+
+    <div class="key-wrap">
+      <div class="key-grid" id="key" aria-label="Partially revealed vault wallet seed">
+        <div class="loading">loading reveals.json…</div>
+      </div>
+      <p class="key-meta">Vault wallet seed · <span id="revealedMeta">? / ?</span> glyphs revealed · <span id="hiddenCount">?</span> sealed</p>
+    </div>
+
+    <div class="stats">
+      <div class="card prize">
+        <div class="card-label">Prize pool · live</div>
+        <div class="prize-row"><span class="prize-value" id="pot">…</span><span class="prize-unit">SOL</span></div>
+        <div class="prize-sub" id="rpcStatus">connecting to Solana…</div>
+      </div>
+      <div class="card timer-card">
+        <div class="dial" id="dial" aria-hidden="true"><div class="dial-face"><span id="dialCenter">—</span></div></div>
+        <div>
+          <div class="card-label">Until next glyph</div>
+          <div class="time" id="countdown">--&nbsp;:&nbsp;--&nbsp;:&nbsp;--</div>
+          <div class="time-units" id="timeUnits"><span>Hrs</span><span>Min</span><span>Sec</span></div>
+          <div class="next-label" id="nextLabel">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="cta" data-link="pumpfun" target="_blank" rel="noopener">Buy on pump.fun</a>
+      <a class="cta-ghost" id="walletLink" target="_blank" rel="noopener">View wallet</a>
+    </div>
+    <div class="ca" id="caBox" hidden>CA <code id="ca"></code> <button class="mini" data-copy="#ca">copy</button></div>
+    <p class="fineprint">First valid transaction wins. Not financial advice.</p>
+  </section>
+
+  <section class="grid2">
+    <div class="card">
+      <div class="card-label">Inside the vault</div>
+      <div class="breakdown" id="potBreakdown"></div>
+      <div class="meta">
+        <div><span>Wallet</span><code id="wallet">—</code> <button class="mini" data-copy="#wallet">copy</button></div>
+        <div><span>Search space</span><code id="space">—</code></div>
+        <div><span>Entropy left</span><code id="bits">—</code></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Reveal schedule</div>
+      <ol class="schedule" id="schedule"></ol>
+    </div>
+  </section>
+
+  <section class="card prose" id="feed">
+    <h2>Reveal history</h2>
+    <div class="next-triggers" id="nextTriggers"></div>
+    <ol class="feed-list" id="feedList"><li class="feed-empty">No reveals yet.</li></ol>
+  </section>
+
+  <section class="card lock" id="lock">
+    <div class="lock-head">
+      <div class="lock-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm-3 8V7a3 3 0 1 1 6 0v3H9Zm3 3.5a1.5 1.5 0 0 1 .75 2.8V18h-1.5v-1.7A1.5 1.5 0 0 1 12 13.5Z"/></svg>
+      </div>
+      <div>
+        <div class="card-label">Fee split · on-chain lock</div>
+        <div class="lock-title" id="splitTitle">Checking pump.fun fee split…</div>
+      </div>
+    </div>
+    <div class="lock-rows" id="splitRows"></div>
+    <p class="small">The coin was created from the dev's own wallet. pump.fun's creator fee sharing was then set to send <b>100% of creator fees to the vault wallet</b>.
+      Writing that split also revokes the split admin in the same instruction, so nobody (not the dev, not the winner) can point the fees anywhere else. This box reads it live from the chain.</p>
+    <p class="small proof">Proof: <a id="splitAcct" target="_blank" rel="noopener">sharing_config account</a> · <a id="splitTx" target="_blank" rel="noopener">fee-split transaction</a></p>
+  </section>
+
+  <section class="card prose">
+    <h2>How the heist works</h2>
+    <ol class="how">
+      <li>The token was launched on pump.fun with <b>100% of creator fees locked to the vault wallet</b> through pump.fun fee sharing. Every trade adds to the pot.</li>
+      <li>The wallet's 32-byte seed is shown above in base58. Sealed glyphs are shown as <span class="dot">•</span>.</li>
+      <li>Each step reveals one more glyph — when the market cap holds above a milestone (checked on two independent price feeds for an hour) <b>or</b> when its time-lock deadline passes, whichever comes first.</li>
+      <li>Reconstruct the seed, derive the keypair and check it matches the wallet address. Then you control the wallet and everything in it.</li>
+      <li>Fees waiting in pump.fun's vault are pushed to the wallet by a permissionless "distribute" call that anyone can trigger. Future fees keep flowing to the same wallet, because the split is locked.</li>
+      <li>Whoever moves the funds first wins. That's the whole game.</li>
+      <li>The endgame drips slowly (one glyph every ~7 days) so the cracking race has time to play out. Every glyph has a hard deadline, so the vault always opens eventually.</li>
+    </ol>
+  </section>
+
+  <section class="card prose" id="verify">
+    <h2>Verify the vault</h2>
+    <p>At launch we published, for <b>every</b> hidden glyph, a salted commitment <code>sha256("position|char|salt")</code>. Each reveal publishes that glyph's char and salt, so you can verify it the instant it appears — the gold glyphs above with a dot underline are checked live in your browser.</p>
+    <pre class="hash" id="commit">—</pre>
+    <p class="small">Every sealed glyph is also <b>time-locked</b> with <a href="https://drand.love" target="_blank" rel="noopener">drand</a> (League of Entropy). Its ciphertext is published at launch and can only be decrypted after the glyph's deadline — by <b>anyone</b>, even if we vanish. So the game is guaranteed to end. Milestones can only reveal a glyph <b>earlier</b>; they can never delay it.
+      The wallet address is itself a commitment, because only one seed derives it. Rebuild the reveals yourself: <code>node reveal/verify-reveals.js</code>, or open a due glyph with no secret: <code>node reveal/tlock-open.js</code>.</p>
+    <p class="small warn">Milestone-early reveals are published by us (we hold the char+salt until then), so for those you trust us not to sit on a triggered milestone. The time-lock is the backstop: worst case, you wait for the deadline. Deadlines, not milestones, are what guarantees the ending.</p>
+    <p class="small">The fee routing is locked on-chain too (see <a href="#lock">Fee split</a>). The dev's wallet has no power over where fees go.</p>
+    <p class="small warn">Honest caveat: the creator generated the puzzle, so the creator knows the key. The commitment proves the puzzle wasn't swapped, and the fee lock proves where fees go, but nothing can stop the creator from sweeping the vault wallet. Watch it on-chain, where every move is public.</p>
+  </section>
+
+  <section class="card prose rules" id="rules">
+    <h2>Rules &amp; disclaimers</h2>
+    <ul>
+      <li><b>First to sweep wins.</b> If several people crack the key, it's a race and the first confirmed transaction takes it. No refunds, no appeals, no do-overs.</li>
+      <li>Anyone holding the key can do anything the vault wallet can: move its SOL, trigger distributions, and sell any tokens it holds. Future creator fees keep arriving at the same wallet, so whoever controls it keeps collecting until someone else moves faster.</li>
+      <li>The fee split is locked by pump.fun's program (admin revoked). The only exception documented in pump.fun's SDK is a platform-run community takeover (CTO) by pump.fun itself.</li>
+      <li>Front-running bots exist. If you crack it, act fast and consider a private or priority transaction.</li>
+      <li><b>After someone wins:</b> creator fees keep flowing to the same wallet, and its key is now public, so it becomes a sweeper race — whoever moves each new fee first keeps it. The split is locked and can't be repointed. Treat a win as "you get what's there now, and whatever you can grab later".</li>
+      <li>Never paste a private key into a website you don't trust. Do all brute forcing and verification offline.</li>
+      <li>This is a meme and a puzzle. <b>Not financial advice.</b> Meme tokens can go to zero. Only spend what you can afford to lose.</li>
+      <li>Games of chance with prizes may count as a lottery or gambling in some jurisdictions. <b>You are responsible</b> for checking your local laws before taking part.</li>
+      <li>No guarantees. pump.fun mechanics, fees and RPC data can change or be wrong. On-chain state is the only truth.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <span><span data-bind="tokenName">TOKEN_NAME</span> · <span data-bind="ticker">$TICKER</span> · the vault is opening</span>
+  <span id="updated"></span>
+</footer>
+
+<script src="config.js"></script>
+<script src="sharing.js"></script>
+<script src="verify.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

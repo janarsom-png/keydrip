@@ -1,0 +1,15 @@
+{
+  "_comment": [
+    "pump.fun fee sharing allows up to 10 recipients, each a normal wallet pubkey (SOL sent directly on distribute).",
+    "share_bps are basis points; they MUST sum to exactly 10000. Default: 100% to the puzzle wallet.",
+    "The puzzle wallet is read from public-commitment.json unless you set it explicitly below.",
+    "Example of an optional buyback/burn share so the project survives after someone wins (see README point 5)."
+  ],
+  "shareholders": [
+    { "address": "PUZZLE", "share_bps": 10000 }
+  ],
+  "_example_with_buyback": [
+    { "address": "PUZZLE", "share_bps": 8000 },
+    { "address": "<YOUR_BUYBACK_OR_BURN_WALLET>", "share_bps": 2000 }
+  ]
+}

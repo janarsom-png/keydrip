@@ -1,0 +1,8 @@
+*.zip
+node_modules/
+secrets/
+launch/out/
+crack/FOUND.txt
+winner-key.txt
+bot/state/secret.runtime.json
+.finish_github.sh

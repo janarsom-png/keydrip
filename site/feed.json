@@ -1,0 +1,25 @@
+{
+  "tokenName": "KEYDRIP",
+  "ticker": "$KEYDRIP",
+  "events": [
+    {
+      "type": "reveal",
+      "ref": "glyph-0",
+      "pos": 22,
+      "char": "6",
+      "label": "Sustained $50k market cap",
+      "revealedBy": "timelock",
+      "verified": true,
+      "title": "Sustained $50k market cap",
+      "id": "reveal-glyph-0",
+      "ts": "2026-11-11T02:00:00.000Z",
+      "text": "🔓 A glyph just dripped.\n\n$KEYDRIP vault key is now 13 glyphs from cracked (~74.3 bits left).\n\nVerify it yourself — every reveal is commitment-checked.\nhttps://keydrip.example"
+    }
+  ],
+  "updatedAt": "2026-11-11T02:00:00.000Z",
+  "game": {
+    "status": "live",
+    "winner": null,
+    "sweeperRaceNotice": "The split is locked, so creator fees keep arriving at this now-public wallet. First to move each new fee keeps it."
+  }
+}

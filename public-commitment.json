@@ -1,0 +1,82 @@
+{
+  "version": 2,
+  "address": "6pXpQ9m1mWyndtEftrZH1YvSyk2sKszrhr8WaUV87jCg",
+  "puzzleLength": 44,
+  "hiddenAtStart": 14,
+  "masked": "?wz?pJqD3sGfyt?Gac4t8D??szGqN????v?Fv?o??W?R",
+  "commitmentScheme": "sha256(\"<pos>|<char>|<salt>\") per hidden position; char+salt published at each reveal",
+  "commitments": [
+    {
+      "k": 0,
+      "pos": 22,
+      "commitment": "ee3f571efcfb08ade1567f1000a5bfd517c5058e5c369f27d076d0033e185518"
+    },
+    {
+      "k": 1,
+      "pos": 29,
+      "commitment": "9c215629bbc928985b69e9fd4e93a1ede4cebb7dd74519acf68d410fa3c5453b"
+    },
+    {
+      "k": 2,
+      "pos": 30,
+      "commitment": "702d783c39977297d6c2c89a3a12a5d88a672d59cad08fa6e9ee3905916fa838"
+    },
+    {
+      "k": 3,
+      "pos": 32,
+      "commitment": "63402641666ffa93d6b973471b00f04131042c1edf64332cbf89a7c7ecae80e9"
+    },
+    {
+      "k": 4,
+      "pos": 3,
+      "commitment": "08fc8736a19e421656768354b5e8e5ae7c97c8d558fd2a9082211f921b8b8926"
+    },
+    {
+      "k": 5,
+      "pos": 42,
+      "commitment": "7bfd8b13a9e95577c398a785755ffdfd6779ce038e9dd94b48b54ef23c6ad746"
+    },
+    {
+      "k": 6,
+      "pos": 40,
+      "commitment": "fb2dcc4aa43958e8ea9df71e9db21c8d6c95b524e1470413027188af6383202a"
+    },
+    {
+      "k": 7,
+      "pos": 34,
+      "commitment": "ddc31dd4678cf4c2ef158104479af7ac9031c00338ca161ba1dcb362f217b751"
+    },
+    {
+      "k": 8,
+      "pos": 31,
+      "commitment": "28e592eb078980d52340ad716781fac5d378d0f5de1c50b7cd05a2e0a643113f"
+    },
+    {
+      "k": 9,
+      "pos": 14,
+      "commitment": "899c98b36a620f51d7c05118d4fa48ac126085a7de983e9aa6d64eb32679881d"
+    },
+    {
+      "k": 10,
+      "pos": 39,
+      "commitment": "b604c192fe0177814592e1a55986fd0d76ac54700ba2b594d7caf2ef1982bdaa"
+    },
+    {
+      "k": 11,
+      "pos": 23,
+      "commitment": "f3c973f28b35b1d8c6643036fb55083e0ca8e3e04098b01008467b7bb0644596"
+    },
+    {
+      "k": 12,
+      "pos": 37,
+      "commitment": "74c7bd8e16bfb06827997625fb107e9af6eedd38f1852df226ca998a9ff88db0"
+    },
+    {
+      "k": 13,
+      "pos": 0,
+      "commitment": "803fd09397cae298abe1e11d8d24d696fcac8e8f21e6dd535e9999485e1a0d5d"
+    }
+  ],
+  "difficultyBits": 80.17,
+  "createdAt": "2026-11-10T23:56:08.803Z"
+}

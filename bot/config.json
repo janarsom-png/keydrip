@@ -1,0 +1,3 @@
+{ "tokenName": "KEYDRIP", "ticker": "$KEYDRIP", "mint": "5RZrv4NWrHLqgW1UWCiG1uqyqBLRqoVabnxGZZQvpump",
+  "rpcEndpoints": ["https://solana-rpc.publicnode.com"], "siteBaseUrl": "https://keydrip.example",
+  "winner": { "minOutLamports": 1 } }
