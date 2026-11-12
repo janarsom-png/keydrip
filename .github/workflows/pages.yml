@@ -1,0 +1,85 @@
+name: Publish site
+
+# Builds the public site from main and deploys it to GitHub Pages (https://thethief.fun).
+# Applies the PRE-LAUNCH GATE: until the repo variable LAUNCHED is "true" the root shows the teaser and the full game
+# is only at /p/<PREVIEW_SLUG>/ (noindex; slug lives only in the Actions secret).
+#
+# Triggered by:
+#   - workflow_call      from "The Vault Thief bot" (pre-launch quick run),
+#   - workflow_dispatch  from the live-game loop each time it pushes new state (pushes made with GITHUB_TOKEN do not
+#                        trigger workflows, but workflow_dispatch does), or by hand,
+#   - push to main       touching site/ or teaser/ (your own manual edits).
+# Only one deploy runs at a time; if several are queued, GitHub keeps only the newest, which always has the latest state.
+# It never posts to X and never sends an on-chain transaction.
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'teaser/**'
+      - '.github/workflows/pages.yml'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: thief-pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main   # always publish the newest pushed state
+      - name: Assemble Pages output (pre-launch gate)
+        env:
+          PREVIEW_SLUG: ${{ secrets.PREVIEW_SLUG }}
+          LAUNCHED: ${{ vars.LAUNCHED }}
+        run: |
+          rm -rf public && mkdir -p public
+          cp site/CNAME public/CNAME 2>/dev/null || true   # custom domain, applies site-wide
+          if [ "$LAUNCHED" = "true" ]; then
+            echo "LAUNCHED=true -> publishing the FULL GAME at the site root."
+            cp -r site/. public/
+            printf 'User-agent: *\nAllow: /\n' > public/robots.txt
+          else
+            echo "Pre-launch -> publishing the TEASER at root; full game behind a secret preview slug."
+            cp -r teaser/. public/
+            # Teaser is indexable; the preview area is disallowed by PREFIX only, so the
+            # unguessable slug itself never appears in the public robots.txt.
+            printf 'User-agent: *\nAllow: /\nDisallow: /p/\n' > public/robots.txt
+            if [ -n "$PREVIEW_SLUG" ]; then
+              mkdir -p "public/p/$PREVIEW_SLUG"
+              cp -r site/. "public/p/$PREVIEW_SLUG/"
+              rm -f "public/p/$PREVIEW_SLUG/CNAME"   # CNAME lives only at the root
+              node -e '
+                const fs=require("fs");const f=process.argv[1];let h=fs.readFileSync(f,"utf8");
+                if(!/name="robots"/i.test(h)) h=h.replace(/<head>/i,"<head>\n<meta name=\"robots\" content=\"noindex, nofollow\">");
+                fs.writeFileSync(f,h);
+              ' "public/p/$PREVIEW_SLUG/index.html"
+              echo "::notice::Preview published under /p/<secret-slug>/ (noindex)."
+            else
+              echo "::warning::PREVIEW_SLUG not set - no private preview published."
+            fi
+          fi
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - name: Deploy to GitHub Pages
+        id: deploy1
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+      - name: Wait before retry (GitHub API hiccup)
+        if: steps.deploy1.outcome == 'failure'
+        run: sleep 30
+      - name: Deploy to GitHub Pages (retry)
+        if: steps.deploy1.outcome == 'failure'
+        uses: actions/deploy-pages@v4

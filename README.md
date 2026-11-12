@@ -224,7 +224,7 @@ written as draft text files for you to send.
 **Loop locally / on a VPS** — `node bot/loop.js --mint <MINT> --interval 120` runs the tick on an interval. Run it
 here (with `secrets/secret.json` present) if you want milestone-early reveals without GitHub holding the secret.
 
-**GitHub Actions** — `.github/workflows/keydrip-bot.yml` runs the tick every 5 minutes (the most frequent cron GitHub allows), commits
+**GitHub Actions** — `.github/workflows/keydrip-bot.yml` runs the tick about every 60 seconds during the live game (a long-running loop job, `bot/ci-loop.js`, that hands over to a fresh run every ~5h40m; see LAUNCH.md "Bot cadence"), commits
 `site/reveals.json`, `site/feed.json`, `reveal/milestones-state.json`, `bot/state/`, `drafts/`, and deploys `site/`
 to GitHub Pages. Secrets: `TOKEN_MINT` (required), `THIEF_SECRET_B64` = `base64 -w0 secrets/secret.json` (optional,
 only for milestone-early + final reveals; omit for the fully trustless time-locked path). `reveal/milestones-state.json`

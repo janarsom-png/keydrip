@@ -12,7 +12,7 @@
   "maxGameHours": 24,
   "startHidden": 14,
   "milestoneRule": {
-    "_note": "INSTANT crossing. A milestone triggers on the first poll where market cap >= the threshold on ANY one reliable source (minSources: 1). Where a source exposes a recent high (GeckoTerminal OHLCV high since the last poll) that high is used, so a brief spike between polls still counts. Once triggered it NEVER un-triggers. No sustained-duration requirement. The bot polls every 5 minutes, so a reveal lands within a few minutes of the crossing.",
+    "_note": "INSTANT crossing. A milestone triggers on the first poll where market cap >= the threshold on ANY one reliable source (minSources: 1). Where a source exposes a recent high (GeckoTerminal OHLCV high since the last poll) that high is used, so a brief spike between polls still counts. Once triggered it NEVER un-triggers. No sustained-duration requirement. During the live game the bot polls about every 60 seconds, so a reveal lands within a minute or two of the crossing.",
     "minSources": 1,
     "useRecentHigh": true,
     "reliableSources": ["dexscreener", "geckoterminal"],

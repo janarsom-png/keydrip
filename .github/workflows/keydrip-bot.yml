@@ -1,18 +1,32 @@
 name: The Vault Thief bot
 
-# Runs one tick every 5 minutes (the most frequent GitHub Actions cron allows): samples market cap, opens any time-locked glyphs whose deadline
-# has passed (NO secret needed — drand does it), checks for a winning sweep, rebuilds site/reveals.json
-# + site/feed.json + X drafts, commits the changes, and publishes site/ to GitHub Pages.
+# CADENCE
+#   Pre-launch (secret TOKEN_MINT not set): a quick run that only publishes the site (teaser at the root, full game at
+#   the secret /p/<PREVIEW_SLUG>/ preview) via the "Publish site" workflow. No loop, no minutes burned.
 #
-# It NEVER posts to X and NEVER sends an on-chain transaction. Drafts are text files only.
+#   Live game (TOKEN_MINT set): ONE long-running job ticks about EVERY 60 SECONDS (bot/ci-loop.js -> bot/run.js):
+#   samples market cap (milestones fire on the first tick over the threshold), opens time-locked glyphs whose drand
+#   deadline has passed (no secret needed), scans for a winning sweep, rebuilds site/reveals.json + site/feed.json +
+#   X drafts. When something meaningful changes it commits + pushes at once and dispatches "Publish site" to redeploy
+#   Pages (plus a 10-minute heartbeat so the prize pool / timestamp stay fresh).
+#   GitHub jobs are capped at 6 h, so the loop runs ~5h40m, then dispatches a fresh run of this workflow and exits;
+#   the concurrency group queues the successor until the old run is done, so two loops never overlap.
+#   The loop stops for good when the game is over (winner found, or 2 h past the final deadline, which
+#   lib/schedule.js caps at maxGameHours = 24 h after launch).
+#   The */5 cron below is only a BACKUP restarter: GitHub throttles it heavily (often hours apart), so it is never
+#   relied on for timing. To stop the loop by hand, cancel the running workflow run (a cancelled run hands over to no one).
 #
-# Secrets (Settings → Secrets and variables → Actions):
-#   TOKEN_MINT            required — the pump.fun mint address.
-#   THIEF_SECRET_B64    optional — base64 of secrets/secret.json. Enables MILESTONE-EARLY reveals and the
+# It NEVER posts to X and NEVER sends an on-chain transaction. Drafts are text files only. Secrets are never printed.
+#
+# Secrets (Settings -> Secrets and variables -> Actions):
+#   TOKEN_MINT            the pump.fun mint address. Setting it switches the bot from pre-launch to live-game mode.
+#   THIEF_SECRET_B64      optional - base64 of secrets/secret.json. Enables MILESTONE-EARLY reveals and the
 #                         final full-key reveal on win. Omit it to run the fully trustless time-locked path:
 #                         glyphs still open at their drand deadlines without any secret.
 #                         Trust note: whoever holds this secret can reveal early. Prefer running the
 #                         milestone path on your own machine (bot/loop.js) if you don't want GitHub to hold it.
+#   PREVIEW_SLUG          secret preview path (used by "Publish site").
+# Variable: LAUNCHED = true publishes the full game at the root (used by "Publish site").
 
 on:
   schedule:
@@ -23,79 +37,73 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  actions: write
 
+# One bot run at a time. A new run (successor / cron) WAITS in the queue; it never cancels the running loop.
 concurrency:
   group: keydrip-bot
   cancel-in-progress: false
 
 jobs:
-  tick:
+  mode:
     runs-on: ubuntu-latest
+    outputs:
+      live: ${{ steps.m.outputs.live }}
+    steps:
+      - id: m
+        env:
+          TOKEN_MINT: ${{ secrets.TOKEN_MINT }}
+        run: |
+          if [ -n "$TOKEN_MINT" ]; then echo "live=true" >> "$GITHUB_OUTPUT"; echo "TOKEN_MINT is set -> live-game loop."
+          else echo "live=false" >> "$GITHUB_OUTPUT"; echo "TOKEN_MINT not set (token not launched) -> pre-launch publish only."; fi
+
+  # Pre-launch: publish teaser + private preview, exactly as before.
+  publish:
+    needs: mode
+    if: needs.mode.outputs.live != 'true'
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit
+
+  # Live game: tick every ~60 s for up to ~5h40m, then hand over to a fresh run.
+  loop:
+    needs: mode
+    if: needs.mode.outputs.live == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
       - run: npm ci || npm install
-      - name: Run one tick
+      - name: Tick every 60 s (commit + redeploy on change)
+        id: loop
         env:
           TOKEN_MINT: ${{ secrets.TOKEN_MINT }}
           THIEF_SECRET_B64: ${{ secrets.THIEF_SECRET_B64 }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          if [ -z "$TOKEN_MINT" ]; then
-            echo "TOKEN_MINT is not set yet (token not launched) — skipping the tick and just publishing the current site/."
-            exit 0
-          fi
-          node bot/run.js --mint "$TOKEN_MINT" || echo "tick returned non-zero (non-fatal); publishing current site/ anyway"
-      - name: Commit state, reveals, feed, drafts
-        run: |
+          echo "start=$(date +%s)" >> "$GITHUB_OUTPUT"
           git config user.name "keydrip-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add site/reveals.json site/feed.json reveal/milestones-state.json bot/state drafts || true
-          git commit -m "bot tick $(date -u +%FT%TZ)" || echo "nothing to commit"
-          git push || echo "nothing to push"
-      - name: Assemble Pages output (pre-launch gate)
+          node bot/ci-loop.js --mint "$TOKEN_MINT" --duration-min 340 --interval-sec 60 --heartbeat-min 10 \
+            --exit-file "$RUNNER_TEMP/loop-exit.json"
+      - name: Hand over to a fresh run (keeps the 60 s cadence past the 6 h job limit)
+        if: always() && !cancelled()
         env:
-          PREVIEW_SLUG: ${{ secrets.PREVIEW_SLUG }}
-          LAUNCHED: ${{ vars.LAUNCHED }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          START: ${{ steps.loop.outputs.start }}
         run: |
-          rm -rf public && mkdir -p public
-          cp site/CNAME public/CNAME 2>/dev/null || true   # custom domain, applies site-wide
-          if [ "$LAUNCHED" = "true" ]; then
-            echo "LAUNCHED=true -> publishing the FULL GAME at the site root."
-            cp -r site/. public/
-            printf 'User-agent: *\nAllow: /\n' > public/robots.txt
-          else
-            echo "Pre-launch -> publishing the TEASER at root; full game behind a secret preview slug."
-            cp -r teaser/. public/
-            # Teaser is indexable; the preview area is disallowed by PREFIX only, so the
-            # unguessable slug itself never appears in the public robots.txt.
-            printf 'User-agent: *\nAllow: /\nDisallow: /p/\n' > public/robots.txt
-            if [ -n "$PREVIEW_SLUG" ]; then
-              mkdir -p "public/p/$PREVIEW_SLUG"
-              cp -r site/. "public/p/$PREVIEW_SLUG/"
-              rm -f "public/p/$PREVIEW_SLUG/CNAME"   # CNAME lives only at the root
-              node -e '
-                const fs=require("fs");const f=process.argv[1];let h=fs.readFileSync(f,"utf8");
-                if(!/name="robots"/i.test(h)) h=h.replace(/<head>/i,"<head>\n<meta name=\"robots\" content=\"noindex, nofollow\">");
-                fs.writeFileSync(f,h);
-              ' "public/p/$PREVIEW_SLUG/index.html"
-              echo "::notice::Preview published under /p/<secret-slug>/ (noindex)."
-            else
-              echo "::warning::PREVIEW_SLUG not set - no private preview published."
-            fi
+          reason=$(node -e 'try{console.log(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")).reason)}catch{console.log("none")}' "$RUNNER_TEMP/loop-exit.json")
+          ran=$(( $(date +%s) - ${START:-$(date +%s)} ))
+          echo "loop exit reason: $reason (ran ${ran}s)"
+          if [ "$reason" = "over" ]; then echo "Game over -> no successor. The loop has stopped."; exit 0; fi
+          if [ "$reason" != "duration" ] && [ "$ran" -lt 600 ]; then
+            echo "::warning::Loop failed after only ${ran}s -> not re-dispatching (avoids a crash loop); the */5 cron will retry."
+            exit 0
           fi
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-      - name: Deploy to GitHub Pages
-        id: deploy1
-        continue-on-error: true
-        uses: actions/deploy-pages@v4
-      - name: Wait before retry (GitHub API hiccup)
-        if: steps.deploy1.outcome == 'failure'
-        run: sleep 30
-      - name: Deploy to GitHub Pages (retry)
-        if: steps.deploy1.outcome == 'failure'
-        uses: actions/deploy-pages@v4
+          gh workflow run keydrip-bot.yml --ref main && echo "Successor dispatched; it starts as soon as this run ends."
